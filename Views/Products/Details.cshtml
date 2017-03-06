@@ -1,0 +1,113 @@
+﻿@model Application.ViewModels.ProductViewModel
+@{
+    ViewBag.Title = "Details";
+}
+
+<div id="products-details" class="b-white">
+    <!--Title-->
+    <div class="title b-lightgrey">
+        <h2>Marketplace</h2>
+    </div>    
+
+    @{
+        var bcolor = "b-yellow";
+        var dlinks = "";
+        var dsold = "hide";
+
+        if (Model.IsLive == false)
+        {
+            bcolor = "b-grey";
+            dlinks = "hide";
+            dsold = "";
+        }
+
+        <!--Description-->
+        <div class="subtitle @bcolor f-white big">
+            <h2>@Model.Name</h2>
+            @if (Model.Wanted)
+            { <div class="wanted b-white f-yellow">Wanted</div> }            
+            <h2 class="f-red @dsold">[Sold]</h2>
+        </div>        
+        
+        <!--Product-->
+        <div class="product">
+            <div class="gallery @bcolor">
+                <ul class="container">
+                    @{
+                        var i = 0;
+                        var first = 0;
+
+                        if (Model.ProductFiles.Count() == 0)
+                        {
+                            <li class="selected"><img src="~/Files/Images/ProductImages/default.jpg" /></li>
+                        }
+                        else
+                        {
+                            foreach (var img in Model.ProductFiles)
+                            {
+                                i++;
+                                var productFileName = img.File.FileName + "." + img.File.FileExtention.Name;
+                                if (img.IsPrimary == true && first == 0)
+                                {
+                                    <li class="selected"><img src="~/Files/Images/ProductImages/@productFileName" /></li>
+                                    first++;
+                                }
+                                else
+                                {
+                                    <li><img src="~/Files/Images/ProductImages/@productFileName" /></li>
+                                }
+                            }
+                        }
+                    }
+                </ul>
+                <div class="navigation">
+                    <a href="#noref" class="previous"></a>
+                    <a href="#noref" class="next"></a>
+                </div>
+            </div>
+
+            @{
+                var userPrimaryImage = "default.jpg";
+                if (Model.UserViewModel.IsPrimaryFileExist == true) { userPrimaryImage = Model.UserViewModel.PrimaryFile.File.FileName + "_small." + Model.UserViewModel.PrimaryFile.File.FileExtention.Name; }
+            }            
+            <div class="text b-lightgrey">
+                <div class="links @dlinks">
+                    @if (Model.Wanted)
+                    {
+                        @Html.ActionLink("Undo Wanted", "Delete", "BuyRequests", new { id = Model.Id }, null) <text>|</text>
+                    }
+                    else
+                    {
+                        @Html.ActionLink("I Want This", "Create", "BuyRequests", new { id = Model.Id }, null) <text>|</text>
+                    }
+                    @Html.ActionLink("Back To Marketplace", "Index")
+                </div>
+                <a href="@Url.Action("Details", "Users", new { id = Model.UserViewModel.Id })" class="user">
+                    <div class="icon b-blue">
+                        <img src="~/Files/Images/UserImages/@userPrimaryImage" />
+                    </div>
+                    <div class="info">
+                        @{
+                            var location = "Unknown Location";
+                            var ad = @Model.UserViewModel.Addresses.FirstOrDefault();
+                            if (ad != null)  location = ad.City.Name + ", " + ad.City.Country.Name;
+                        }
+                        <div class="name">@Model.UserViewModel.FirstName @Model.UserViewModel.LastName</div>
+                        <div class="location">@location</div>
+                    </div>
+                </a>
+                <div class="clear"></div>
+
+                <div class="category">
+                    <b>Categories: </b>
+                    @Model.SubCategory.Category.Name > @Model.SubCategory.Name
+                </div>
+                <div class="description">
+                    <b>Description: </b>
+                    @Model.Description
+                </div>
+            </div>
+        </div>
+}
+
+</div>

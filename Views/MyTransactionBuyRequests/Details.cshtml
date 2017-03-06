@@ -1,0 +1,56 @@
+﻿@model Application.DbModels.TransactionBuyRequest
+
+@{
+    ViewBag.Title = "Details";
+    var prod = Model.GiveBuyRequest.Product;
+    var sender = Model.GiveBuyRequest.Product.User;
+    var receiver = Model.GiveBuyRequest.User;
+}
+
+<div id="mytransactionbuyrequests-details">
+    <!--Title-->
+    <div class="title b-lightgrey">
+        <h2>My Transactions</h2>
+    </div>
+
+    <!--Description-->
+    <div class="subtitle b-pink f-white big">
+        <h2>Invoice</h2>
+    </div>
+
+    <div class="row invoice">
+        <div class="id">Handover Id: #@Model.Id</div>
+        <div class="date">Date: </div>        
+
+        <div class="box sender">
+            <div class="label">Sender</div>
+            <div class="info o-lightgrey">
+                <div>Name: @sender.FirstName @sender.LastName</div>
+            </div>
+
+        </div>
+        <div class="box receiver">
+            <div class="label">Receiver</div>
+            <div class="info o-lightgrey">
+                <div>Name: @Model.Handover.ShippingName</div>
+                <div>Address: @Model.Handover.ShippingAddress</div>
+            </div>
+        </div>
+
+        <div class="label">Product</div>
+        <div class="text">@Html.ActionLink(@prod.Name, "Details", "MyProducts", new { id = prod.Id }, null)</div>
+
+        <div class="label">Handover Method</div>
+        <div class="text">@Model.Handover.HandoverMethod.Name</div>
+
+        <div class="label">Note</div>
+        <div class="text">@Model.Handover.Note</div>
+
+
+    </div>
+    <!-- Link -->
+    @Html.ActionLink("Back To My Transactions", "Index", "MyTransactions", new { id = Model.Transaction.Id }, new { @class = "f-pink b-lightgrey link block" })
+
+
+</div>
+

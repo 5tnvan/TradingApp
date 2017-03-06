@@ -1,0 +1,53 @@
+﻿@model Application.ViewModels.AddressViewModel
+
+@{
+    ViewBag.Title = "Edit";
+}
+
+<div id="myaddresses-edit" class="b-white">
+    <!--Title-->
+    <div class="title b-lightgrey">
+        <h2>My Addresses</h2>
+    </div>
+
+    <!--Description-->
+    <div class="subtitle b-red f-white big">
+        <h2>@Model.StreetName @Model.StreetNumber</h2>
+    </div>
+
+    @using (Html.BeginForm())
+    {
+        @Html.AntiForgeryToken()
+
+        <div class="inputs">
+            @Html.LabelFor(model => model.StreetName)
+            @Html.EditorFor(model => model.StreetName, new { htmlAttributes = new { @class = "input" } })
+            @Html.ValidationMessageFor(model => model.StreetName, "", new { @class = "validation error" })
+
+            @Html.LabelFor(model => model.StreetNumber)
+            @Html.EditorFor(model => model.StreetNumber, new { htmlAttributes = new { @class = "input" } })
+            @Html.ValidationMessageFor(model => model.StreetNumber, "", new { @class = "validation error" })
+
+            @if (Model.SelectedCityId == 0)
+            {
+                @Html.LabelFor(model => model.SelectedCityId, new { @class = "citylabel hide" })
+                @Html.DropDownListFor(model => model.SelectedCityId, Model.Cities, "Select City", new { @class = "input dropdown hide" })
+            }
+            else
+            {
+                @Html.LabelFor(model => model.SelectedCityId, new { @class = "citylabel" })
+                @Html.DropDownListFor(model => model.SelectedCityId, Model.Cities, "Select City", new { @class = "input dropdown" })
+            }
+
+            @Html.LabelFor(model => model.SelectedCountryId)
+            @Html.DropDownListFor(model => model.SelectedCountryId, Model.Countries, "Select Country", new { @class = "input dropdown" })
+            @Html.ValidationMessageFor(model => model.SelectedCountryId, "", new { @class = "validation error" })
+            @Html.ValidationMessageFor(model => model.SelectedCityId, "", new { @class = "validation error" })
+
+            <input type="submit" value="Save" class="input submit f-white" />
+            <div class="link f-red">
+                @Html.ActionLink("Back to My Profile", "Details", "MyUsers", new { id = ViewBag.userId }, null)
+            </div>
+        </div>
+    }
+</div>

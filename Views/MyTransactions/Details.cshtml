@@ -1,0 +1,436 @@
+﻿@using Application.DbModels;
+@model Transaction
+
+<!--Variables-->
+@{
+    ViewBag.Title = "Details";
+    var giveProd = Model.TransactionBuyRequests.First().GiveBuyRequest.Product;
+    var receiveProd = Model.TransactionBuyRequests.Last().GiveBuyRequest.Product;
+    var myTbr = Model.TransactionBuyRequests.Where(x => x.GiveBuyRequest.ProductId == giveProd.Id).FirstOrDefault();
+    var notRated = Model.TransactionBuyRequests.Any(x => x.RatingId == null);
+    var notHandover = Model.TransactionBuyRequests.Any(x => x.HandoverId == null);
+
+    //step one: pending, step two: disabled, step three: disabled
+    var bcolor1 = "b-pink";
+    var disabled1 = "";
+    var bold1 = "bold";
+    var dstatus1 = "";
+    var dimage1 = "hide";
+    var dnumber1 = "";
+    var dx1 = "hide";
+
+    var bcolor2 = "b-grey";
+    var disabled2 = "disabled";
+    var bold2 = "";
+    var dstatus2 = "hide";
+    var dimage2 = "hide";
+    var dnumber2 = "";
+
+    var bold3 = "";
+    var bcolor3 = "b-grey";
+    var disabled3 = "disabled";
+    var dstatus3 = "hide";
+    var dimage3 = "hide";
+    var dnumber3 = "";
+
+    //step one: rejected
+    if (Model.CheckoutStatus == "Rejected") { bcolor1 = "b-grey"; dx1 = ""; dnumber1 = "hide"; disabled1 = "disabled"; }
+
+    //step one: accepted, step two: pending, step three: disabled
+    if (Model.CheckoutStatus == "Accepted" && notHandover == true)
+    {
+        bold1 = "";
+        dstatus1 = "hide";
+        dimage1 = "";
+        dnumber1 = "hide";
+
+        bcolor2 = "b-pink";
+        bold2 = "bold";
+        disabled2 = "";
+        dstatus2 = "";
+    }
+
+    //step one: accepted, step two: performed, step three: pending
+    if (Model.CheckoutStatus == "Accepted" && notHandover == false)
+    {
+        bcolor1 = "b-pink";
+        disabled1 = "";
+        bold1 = "";
+        dstatus1 = "hide";
+        dimage1 = "";
+        dnumber1 = "hide";
+        dx1 = "hide";
+
+        bcolor2 = "b-pink";
+        disabled2 = "";
+        bold2 = "";
+        dstatus2 = "hide";
+        dimage2 = "";
+        dnumber2 = "hide";
+
+        bcolor3 = "b-pink";
+        disabled3 = "";
+        bold3 = "bold";
+        dstatus3 = "";
+    }
+
+    if (notRated == false)
+    {
+        bcolor1 = "b-pink";
+        disabled1 = "";
+        bold1 = "";
+        dstatus1 = "hide";
+        dimage1 = "";
+        dnumber1 = "hide";
+        dx1 = "hide";
+
+        bcolor2 = "b-pink";
+        disabled2 = "";
+        bold2 = "";
+        dstatus2 = "hide";
+        dimage2 = "";
+        dnumber2 = "hide";
+
+        bcolor3 = "b-pink";
+        disabled3 = "";
+        bold3 = "bold";
+        dstatus3 = "";
+        dimage3 = "show";
+        dnumber3 = "hide";
+    }
+
+    //images
+    var giveProdPrimaryFile = giveProd.ProductFiles.Where(x => x.IsPrimary == true).FirstOrDefault();
+    var productImageName = "default.jpg";
+    if (giveProdPrimaryFile != null)
+    {
+        productImageName = giveProdPrimaryFile.File.FileName + "_small." + giveProdPrimaryFile.File.FileExtention.Name;
+    }
+
+    var receiveProdPrimaryFile = receiveProd.ProductFiles.Where(x => x.IsPrimary == true).FirstOrDefault();
+    var productImageName2 = "default.jpg";
+    if (receiveProdPrimaryFile != null)
+    {
+        productImageName2 = receiveProdPrimaryFile.File.FileName + "_small." + receiveProdPrimaryFile.File.FileExtention.Name;
+    }
+}
+
+<div id="mytransactions-details">
+    <!--Title-->
+    <div class="title b-lightgrey">
+        <h2>My Transactions</h2>
+    </div>
+
+    <!--Subtitle-->
+    <div class="subtitle b-pink f-white big">
+        <h2>Transaction: #@Model.Id</h2>
+        <span class="id hide">@Model.Id</span>
+        <span class="tbrId hide">@Model.TransactionBuyRequests.Last().Id</span>
+    </div>
+    
+    <!-- 3 steps -->
+    <div class="row actions b-lightgrey">
+        <!-- Steps (cirle) -->
+        <div class="steps f-white">
+            <!-- Step 1 -->                
+            <a href="#noref" class="circle @bcolor1 @disabled1 step one">
+                <img class="@dimage1" src="/Content/Images/Components/checkmark.svg">
+                <span class="@dnumber1" >1</span>
+                <span class="x @dx1">&#x2716;</span>                   
+            </a>
+            <!-- Step 2 -->
+            <div class="line @bcolor2"></div>
+            <a href="#noref" class="circle @bcolor2 @disabled2 step two">
+                <img class="@dimage2" src="/Content/Images/Components/checkmark.svg">
+                <span class="@dnumber2">2</span>
+            </a>
+            <!-- Step 3 -->
+            <div class="line @bcolor3"></div>                
+            <a href="#noref" class="circle @bcolor3 @disabled3 step three">
+                <img class="@dimage3" src="/Content/Images/Components/checkmark.svg">
+                <span class="@dnumber3">3</span>
+            </a>
+        </div>
+
+        <!-- Steps (name) -->
+        <div class="names">
+            <a href="#noref" class="@bold1 @disabled1 step one">Checkout</a>            
+            <a href="#noref" class="@bold2 @disabled2 step two">Handover Items</a>                          
+            <a href="#noref" class="@bold3 @disabled3 step three">Rate</a>
+        </div>
+
+        <!-- Steps (messages) -->
+        <div class="message one @dx1 f-pink">
+            At least one participant rejected the transition. Transition is no longer valid.
+        </div>
+        <div class="message two hide f-pink">
+            All participants must accept the transaction to unlock step 2.
+        </div>
+        <div class="message three hide f-pink">
+            All participants must perform handover of items to unlock step 3.
+        </div>
+    </div>    
+
+    <!-- Path -->
+    <div class="row path">
+        <div class="label f-pink">Path</div>
+        <div class="cycle">
+            @{
+                var i = 0;
+                foreach (var tbr in Model.TransactionBuyRequests)
+                {
+                    //images
+                    var productImageName3 = "default.jpg";
+                    var productPrimaryFile = tbr.GiveBuyRequest.Product.ProductFiles.Where(x => x.IsPrimary == true).FirstOrDefault();
+                    if (productPrimaryFile != null)
+                    {
+                        productImageName3 = productPrimaryFile.File.FileName + "_small." + productPrimaryFile.File.FileExtention.Name;
+                    }
+
+                    i++;
+                    if (i == 1)
+                    {
+                        <a href="@Url.Action("Details", "MyProducts", new { id = tbr.GiveBuyRequest.ProductId })" class="product inline">
+                            <div class="image">
+                                <img src="/Files/Images/ProductImages/@productImageName3">
+                            </div>
+                            <div class="user">@tbr.GiveBuyRequest.Product.User.FirstName @tbr.GiveBuyRequest.Product.User.LastName[0].</div>
+                        </a>
+                    }
+                    else
+                    {
+                        <div class="arrow inline">
+                            <img src="/Content/Images/Components/onewayarrow-pink.png">
+                        </div>
+                        <a href="@Url.Action("Details", "Products", new { id = tbr.GiveBuyRequest.ProductId })" class="product inline">
+                            <div class="image">
+                                <img src="/Files/Images/ProductImages/@productImageName3">
+                            </div>
+                            <div class="user">@tbr.GiveBuyRequest.Product.User.FirstName @tbr.GiveBuyRequest.Product.User.LastName[0].</div>
+                        </a>
+                    }
+                }
+            }
+
+            <div class="arrow inline">
+                <img src="/Content/Images/Components/onewayarrow-pink.png">
+            </div>
+            <a href="@Url.Action("Details", "MyProducts", new { id = giveProd.Id })" class="product inline">
+                <div class="image">
+                    <img src="/Files/Images/ProductImages/@productImageName">
+                </div>
+                <div class="user">@giveProd.User.FirstName @giveProd.User.LastName[0].</div>
+            </a>
+        </div>
+    </div>
+
+    <!-- I give, I receive -->
+    <div class="row givereceive b-lightgrey">
+        <a href="@Url.Action("Details", "MyProducts", new { id = giveProd.Id })" class="product inline">
+            <div class="label f-pink">I give: </div>
+            <div class="image first inline">
+                <img src="~/Files/Images/ProductImages/@productImageName" />
+            </div>
+            <div class="text name">@giveProd.Name</div>
+        </a>
+        <a href="@Url.Action("Details", "Products", new { id = receiveProd.Id })" class="product inline">
+            <div class="label f-pink">I receive: </div>
+            <div class="image second inline">
+                <img src="~/Files/Images/ProductImages/@productImageName2" />
+            </div>
+            <div class="text name">@receiveProd.Name</div>
+        </a>
+    </div>
+
+    <!-- Checkout Status table -->
+    <div class="row status one @dstatus1">
+        <div class="label f-pink">Checkout Status</div>
+        <table>
+            <thead>
+                <tr>
+                    <td>Sender</td>
+                    <td>Receiver</td>
+                    <td>Product</td>
+                    <td>Status</td>
+                </tr>
+            </thead>
+            <tbody>
+                @{
+                    var z = 1;
+                    foreach (var tbr in Model.TransactionBuyRequests)
+                    {
+                        var productId = "#" + tbr.GiveBuyRequest.ProductId.ToString();
+                        var status = tbr.CheckoutStatus;
+                        var statusclass = tbr.CheckoutStatus.ToLower();
+                        var ddot = "hide";
+                        var cursorx = "cursor-x";
+                        //if (tbr.CheckoutStatus == "Handover") { status = "Accepted"; statusclass = status.ToLower(); }
+                        if (Model.CheckoutStatus == "Pending") { cursorx = ""; }
+                        if (tbr.CheckoutStatus == "Pending") { ddot = "";  }
+                        if (tbr.CheckoutStatus == "Accepted") { status = "Checked out"; }
+
+                        if (z == 1)
+                        {
+                            <tr>
+                                <td>@tbr.GiveBuyRequest.Product.User.FirstName @tbr.GiveBuyRequest.Product.User.LastName</td>
+                                <td>@tbr.GiveBuyRequest.User.FirstName @tbr.GiveBuyRequest.User.LastName</td>
+                                <td>@Html.ActionLink(productId, "Details", "MyProducts", new { id = tbr.GiveBuyRequest.ProductId }, null)</td>
+                                <td>
+                                    <a href="#noref" class="@statusclass @cursorx button myactionaccept small">
+                                        @status
+                                        <span class="dot @ddot"></span>
+                                    </a>
+                                </td>
+                            </tr>
+                        }
+                        else
+                        {
+                            <tr>
+                                <td>@tbr.GiveBuyRequest.Product.User.FirstName @tbr.GiveBuyRequest.Product.User.LastName</td>
+                                <td>@tbr.GiveBuyRequest.User.FirstName @tbr.GiveBuyRequest.User.LastName</td>
+                                <td>@Html.ActionLink(productId, "Details", "Products", new { id = tbr.GiveBuyRequest.ProductId }, null)</td>
+                                <td>
+                                    <a href="#noref" class="@statusclass cursor-x button small">@status</a>
+                                </td>
+                            </tr>
+                        }
+                        z++;
+                    }
+                }
+            </tbody>
+        </table>
+    </div>
+
+    <!-- Handover Status table -->
+    <div class="row status two @dstatus2">
+        <div class="label f-pink">Handover Status</div>
+        <table>
+            <thead>
+                <tr>
+                    <td>Sender</td>
+                    <td>Receiver</td>
+                    <td>Product</td>
+                    <td>Status</td>
+                </tr>
+            </thead>
+            <tbody>
+                @{
+                    var y = 1;
+                    foreach (var tbr in Model.TransactionBuyRequests)
+                    {
+                        var productId = "#" + tbr.GiveBuyRequest.ProductId.ToString();
+                        var handover = tbr.HandoverId != null;
+                        var status = "";
+                        var statusclass = "";
+                        var ddot = "hide";
+                        var link  = "Handover";
+                        if (handover == false) { status = "Pending"; statusclass = "pending"; ddot = ""; }
+                        if (handover == true) { status = "Performed"; statusclass = "accepted"; link = "Details";  }
+                        if (y == Model.TransactionBuyRequests.Count()) { }
+
+                        if (y == 1)
+                        {
+                            <tr>
+                                <td>@tbr.GiveBuyRequest.Product.User.FirstName @tbr.GiveBuyRequest.Product.User.LastName</td>
+                                <td>@tbr.GiveBuyRequest.User.FirstName @tbr.GiveBuyRequest.User.LastName</td>
+                                <td>@Html.ActionLink(productId, "Details", "MyProducts", new { id = tbr.GiveBuyRequest.ProductId }, null)</td>
+                                <td>
+                                    <a href="@Url.Action(@link, "MyTransactionBuyRequests", new { id =  tbr.Id })" class="@statusclass button small">
+                                        @status
+                                        <span class="dot @ddot"></span>
+                                    </a>
+                                </td>
+                            </tr>
+                        }
+                        else
+                        {
+                            <tr>
+                                <td>@tbr.GiveBuyRequest.Product.User.FirstName @tbr.GiveBuyRequest.Product.User.LastName</td>
+                                <td>@tbr.GiveBuyRequest.User.FirstName @tbr.GiveBuyRequest.User.LastName</td>
+                                <td>@Html.ActionLink(productId, "Details", "Products", new { id = tbr.GiveBuyRequest.ProductId }, null)</td>
+                                <td>
+                                    <span class="@statusclass cursor-x button small">@status</span>
+                                </td>
+                            </tr>
+                        }
+                        y++;
+                    }
+                }
+            </tbody>
+        </table>
+    </div>
+    
+    <!-- Rate Status table -->
+    <div class="row status three @dstatus3">
+        <div class="label f-pink">Ratings</div>
+        <table>
+            <thead>
+                <tr>
+                    <td>Sender</td>
+                    <td>Receiver</td>
+                    <td>Product</td>
+                    <td>Rating</td>
+                </tr>
+            </thead>
+            <tbody>
+                @{
+                    var q = 1;
+                    var count = Model.TransactionBuyRequests.Count();
+                    foreach (var tbr in Model.TransactionBuyRequests)
+                    {
+                        var productId = "#" + tbr.GiveBuyRequest.ProductId.ToString();
+
+                        if (q == 1)
+                        {
+                            <tr>
+                                <td>@tbr.GiveBuyRequest.Product.User.FirstName @tbr.GiveBuyRequest.Product.User.LastName</td>
+                                <td>@tbr.GiveBuyRequest.User.FirstName @tbr.GiveBuyRequest.User.LastName</td>
+                                <td>@Html.ActionLink(productId, "Details", "MyProducts", new { id = tbr.GiveBuyRequest.ProductId }, null)</td>
+                                <td>
+                                    @if (tbr.RatingId == null) { <span class="button small pending">Pending</span> }
+                                    else
+                                    {
+                                        var score = "score" + tbr.Rating.Score + ".svg";
+                                        <img src="~/Content/Images/Components/@score" />
+                                    }
+                                </td>
+                            </tr>
+                        }
+                        else
+                        {
+                            <tr>
+                                <td>@tbr.GiveBuyRequest.Product.User.FirstName @tbr.GiveBuyRequest.Product.User.LastName</td>
+                                <td>@tbr.GiveBuyRequest.User.FirstName @tbr.GiveBuyRequest.User.LastName</td>
+                                <td>@Html.ActionLink(productId, "Details", "Products", new { id = tbr.GiveBuyRequest.ProductId }, null)</td>
+                                <td>
+                                    @if (tbr.RatingId == null && q != count) { <span class="button small pending">Pending</span> }
+                                    @if (tbr.RatingId == null && q == count) { <a href="#noref" class="button small pending myactionrate">Pending<span class="dot"></span></a>; }
+                                    @if (tbr.RatingId != null)
+                                    {
+                                        var score = "score" + tbr.Rating.Score + ".svg";
+                                        <img src="~/Content/Images/Components/@score" />
+                                    }
+                                </td>
+                            </tr>
+                        }
+                        q++;
+                    }
+                }
+            </tbody>
+        </table>        
+    </div>
+    
+    <!-- My Action Rate -->
+    <div class="row myaction rate b-pink">
+        <div class="text f-white">How do you rate the product you received?</div>
+        <a href="#noref" class="button locked big" data-score="1"><img src="~/Content/Images/Components/score1.svg" /></a>
+        <a href="#noref" class="button locked big" data-score="2"><img src="~/Content/Images/Components/score2.svg" /></a>
+        <a href="#noref" class="button locked big" data-score="3"><img src="~/Content/Images/Components/score3.svg" /></a>
+        <div class="error"></div>
+    </div>       
+        
+    <!-- Link -->
+    @Html.ActionLink("Back To My Transactions", "Index", "MyTransactions", null, new { @class = "row f-pink b-lightgrey link block" })    
+
+</div>
+

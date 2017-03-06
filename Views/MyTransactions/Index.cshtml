@@ -1,0 +1,195 @@
+﻿@using Application.DbModels;
+@model List<Transaction>
+@{
+    ViewBag.Title = "Index";
+    var complete = Model.Where(x => x.TransactionBuyRequests.All(c => c.HandoverId != null)).ToList();
+    var inprogress = Model.Where(c => c.CheckoutStatus == "Pending" || c.CheckoutStatus == "Accepted" && c.TransactionBuyRequests.Any(tbr => tbr.HandoverId == null)).ToList();
+    var rejected = Model.Where(c => c.CheckoutStatus == "Rejected").ToList();
+}
+
+<div id="mytransactions">
+    <!--Title-->
+    <div class="title b-lightgrey">
+        <h2>My Transactions</h2>
+    </div>
+
+    <!--Inprogress-->
+    <div class="subtitle b-yellow f-white small">
+        <h3>Transactions in progress: @inprogress.Count()</h3>
+    </div>
+    @foreach (var item in inprogress)
+    {
+        <a href="@Url.Action("Details", "MyTransactions", new { id = item.Id })" class="transaction">
+            <div class="cycle">
+                @{
+                    var z = 1;
+                    var firstImage = "default.jpg";
+                }
+                @foreach (var tbr in item.TransactionBuyRequests)
+                {
+                    //images
+                    var productImageName = "default.jpg";
+                    var primaryImage = tbr.GiveBuyRequest.Product.ProductFiles.Where(x => x.IsPrimary == true).FirstOrDefault();
+                    if (primaryImage != null)
+                    {
+                        productImageName = primaryImage.File.FileName + "_small." + primaryImage.File.FileExtention.Name;
+                    }
+
+                    if (z == 1)
+                    {
+                        firstImage = productImageName;
+                        <div class="product inline">
+                            <div class="image">
+                                <img src="~/Files/Images/ProductImages/@productImageName" />
+                            </div>
+                            <div class="user">@tbr.GiveBuyRequest.Product.User.FirstName @tbr.GiveBuyRequest.Product.User.LastName[0].</div>
+                        </div>
+                    }
+                    else
+                    {
+                        <div class="arrow inline">
+                            <img src="~/Content/Images/Components/onewayarrow.png" />
+                        </div>
+                            <div class="product inline">
+                                <div class="image">
+                                    <img src="~/Files/Images/ProductImages/@productImageName" />
+                                </div>
+                                <div class="user">@tbr.GiveBuyRequest.Product.User.FirstName @tbr.GiveBuyRequest.Product.User.LastName[0].</div>
+                            </div>
+                    }
+                    z++;
+                }
+                @*first as last*@
+                <div class="arrow inline">
+                    <img src="~/Content/Images/Components/onewayarrow.png" />
+                </div>
+                <div class="product inline">
+                    <div class="image">
+                        <img src="~/Files/Images/ProductImages/@firstImage" />
+                    </div>
+                    <div class="user">@item.TransactionBuyRequests.First().GiveBuyRequest.Product.User.FirstName @item.TransactionBuyRequests.First().GiveBuyRequest.Product.User.LastName[0].</div>
+                </div>
+            </div>
+        </a>
+    }  
+        
+    <!--Complete-->
+    <div class="subtitle b-green f-white small">
+        <h3>Transactions completed: @complete.Count()</h3>
+    </div>
+    @foreach (var item in complete)
+    {
+        <a href="@Url.Action("Details", "MyTransactions", new { id = item.Id })" class="transaction">
+            <div class="cycle">
+                @{
+                    var z = 1;
+                    var firstImage = "default.jpg";
+                }
+                @foreach (var tbr in item.TransactionBuyRequests)
+                {
+                    //images
+                    var productImageName = "default.jpg";
+                    var primaryImage = tbr.GiveBuyRequest.Product.ProductFiles.Where(x => x.IsPrimary == true).FirstOrDefault();
+                    if (primaryImage != null)
+                    {
+                        productImageName = primaryImage.File.FileName + "_small." + primaryImage.File.FileExtention.Name;
+                    }
+
+                    if (z == 1)
+                    {
+                        firstImage = productImageName;
+                        <div class="product inline">
+                            <div class="image">
+                                <img src="~/Files/Images/ProductImages/@productImageName" />
+                            </div>
+                            <div class="user">@tbr.GiveBuyRequest.Product.User.FirstName @tbr.GiveBuyRequest.Product.User.LastName[0].</div>
+                        </div>
+                    }
+                    else
+                    {
+                        <div class="arrow inline">
+                            <img src="~/Content/Images/Components/onewayarrow.png" />
+                        </div>
+                        <div class="product inline">
+                            <div class="image">
+                                <img src="~/Files/Images/ProductImages/@productImageName" />
+                            </div>
+                            <div class="user">@tbr.GiveBuyRequest.Product.User.FirstName @tbr.GiveBuyRequest.Product.User.LastName[0].</div>
+                        </div>
+                    }
+                    z++;
+                }
+                @*first as last*@
+                <div class="arrow inline">
+                    <img src="~/Content/Images/Components/onewayarrow.png" />
+                </div>
+                <div class="product inline">
+                    <div class="image">
+                        <img src="~/Files/Images/ProductImages/@firstImage" />
+                    </div>
+                    <div class="user">@item.TransactionBuyRequests.First().GiveBuyRequest.Product.User.FirstName @item.TransactionBuyRequests.First().GiveBuyRequest.Product.User.LastName[0].</div>
+                </div>
+            </div>
+        </a>
+    }
+
+    <!--Rejected-->  
+    <div class="subtitle b-red f-white small">
+        <h3>Transactions rejected: @rejected.Count()</h3>
+    </div>      
+    @foreach (var item in rejected)
+    {
+        <a href="@Url.Action("Details", "MyTransactions", new { id = item.Id })" class="transaction">
+            <div class="cycle">
+                @{
+                    var z = 1;
+                    var firstImage = "default.jpg";
+                }
+                @foreach (var tbr in item.TransactionBuyRequests)
+                {
+                    //images
+                    var productImageName = "default.jpg";
+                    var primaryImage = tbr.GiveBuyRequest.Product.ProductFiles.Where(x => x.IsPrimary == true).FirstOrDefault();
+                    if (primaryImage != null)
+                    {
+                        productImageName = primaryImage.File.FileName + "_small." + primaryImage.File.FileExtention.Name;
+                    }
+
+                    if (z == 1)
+                    {
+                        firstImage = productImageName;
+                        <div class="product inline">
+                            <div class="image">
+                                <img src="~/Files/Images/ProductImages/@productImageName" />
+                            </div>
+                            <div class="user">@tbr.GiveBuyRequest.Product.User.FirstName @tbr.GiveBuyRequest.Product.User.LastName[0].</div>
+                        </div>
+                    }
+                    else
+                    {
+                        <div class="arrow inline">
+                            <img src="~/Content/Images/Components/onewayarrow.png" />
+                        </div>
+                                <div class="product inline">
+                                    <div class="image">
+                                        <img src="~/Files/Images/ProductImages/@productImageName" />
+                                    </div>
+                                    <div class="user">@tbr.GiveBuyRequest.Product.User.FirstName @tbr.GiveBuyRequest.Product.User.LastName[0].</div>
+                                </div>
+                    }
+                    z++;
+                }
+                @*first as last*@
+                <div class="arrow inline">
+                    <img src="~/Content/Images/Components/onewayarrow.png" />
+                </div>
+                <div class="product inline">
+                    <div class="image">
+                        <img src="~/Files/Images/ProductImages/@firstImage" />
+                    </div>
+                    <div class="user">@item.TransactionBuyRequests.First().GiveBuyRequest.Product.User.FirstName @item.TransactionBuyRequests.First().GiveBuyRequest.Product.User.LastName[0].</div>
+                </div>
+            </div>
+        </a>
+    }
+</div>

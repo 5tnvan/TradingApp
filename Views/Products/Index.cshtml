@@ -1,0 +1,61 @@
+﻿@model IEnumerable<Application.ViewModels.ProductViewModel>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<div id="products">
+    <!--Title-->
+    <div class="title b-lightgrey">
+        <h2>Marketplace</h2>
+    </div>
+
+    <!--Description-->
+    <div class="subtitle b-yellow f-white small">
+        <h3>Pick items you want. These items are marked as wanted.</h3>
+    </div>
+
+    <!--Tiles-->
+    <div class="tiles b-white f-white">
+        @{
+            var i = 0;
+
+            foreach (var item in Model)
+            {
+                var productPrimaryFile = "default.jpg";
+                if (item.IsPrimaryFileExist == true) { productPrimaryFile = item.PrimaryFile.File.FileName + "_small." + item.PrimaryFile.File.FileExtention.Name; }
+
+                // Openning row div
+                if (i % 4 == 0)
+                {
+                    @Html.Raw("<div class='row'>")
+                }
+
+                // The rests of squares
+                <a href="@Url.Action("Details", "Products", new { id = item.Id })" class="square">
+                    <div class="product">
+                        <img class="image" src="~/Files/Images/ProductImages/@productPrimaryFile" />
+                        <span class="overlay name o-black">@Html.DisplayFor(modelItem => item.Name)</span>
+                        @if (item.Wanted)
+                        {
+                            <span class="overlay wanted b-yellow">
+                                <span>Wanted</span>
+                            </span>
+                        }                        
+                    </div>
+                </a>
+
+                // Closing row div
+                if ((i + 1) % 4 == 0)
+                {
+                    @Html.Raw("</div>")
+                }
+
+                i++;
+            }
+        }
+        
+    </div>
+
+</div>
+

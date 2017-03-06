@@ -1,0 +1,36 @@
+﻿@using Application.Core;
+
+@if (AppCore.IsAuthenticated)
+{
+    var userPrimaryImage = AppCore.Db.UserFiles.Where(f => f.User.Id == AppCore.User.Id && f.IsPrimary == true).FirstOrDefault();
+    var userImageName = "default.jpg";
+    if (userPrimaryImage != null) { userImageName = userPrimaryImage.File.FileName + "_small." + userPrimaryImage.File.FileExtention.Name; }
+
+    <div class="account" style="position:relative">
+        @Html.ActionLink("Logout", "Logout", "MyAccount", null, new { @class = "log"})
+        <div class="hide b-black f-white" style="
+            width: 17px;
+            height: 17px;
+            border-radius: 17px;
+            right: -1px;
+            top: 2px;
+            position: absolute;
+            font-size: 12px;
+        "><span style="margin: 0 6px;">2</span></div>
+        <img src="/Content/Images/Components/cart.svg" style="
+            width: 28px;
+            margin-top: 11px;
+            border: 1px solid black;
+            border-radius: 23px;
+            padding: 4px;
+        " class="hide">        
+        <a class="name" href="@Url.Action("Details", "MyUsers", new { id = AppCore.User.Id })">@AppCore.User.FirstName @AppCore.User.LastName</a>
+        <a class="icon" href="@Url.Action("Details", "MyUsers", new { id = AppCore.User.Id })"><img src="~/Files/Images/UserImages/@userImageName" /></a>
+    </div>
+}
+else
+{
+    <div class="account">
+        @Html.ActionLink("Login", "Login", "MyAccount", null, new { @class = "log" })
+    </div>
+}

@@ -1,0 +1,43 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewBag.Title - Barter</title>
+    <link href="~/Content/Styles/core.css" rel="stylesheet" type="text/css" />
+    @*<link href="~/Content/Styles/bootstrap.min.css" rel="stylesheet" type="text/css" />*@
+    <script src="~/Content/Scripts/modernizr-2.6.2.js"></script>    
+</head>
+<body>
+    <div class="master">
+        <!--Header-->
+        <div class="header b-white">
+            <div class="navicon">
+                <a href="#noref"><img src="~/Content/Images/Components/navicon.svg" /></a>
+            </div>
+            <h1>@Html.ActionLink("Barter", "Index", "Home")</h1>            
+            @Html.Partial("_LoginPartial")
+        </div>
+        <ul class="menu b-white">
+            <li>@Html.ActionLink("My Items", "Index", "MyProducts")</li>
+            <li>@Html.ActionLink("Marketplace", "Index", "Products")</li>
+            <li>@Html.ActionLink("My Cart", "Index", "MyCart")</li>
+            <li>@Html.ActionLink("My Transactions", "Index", "MyTransactions")</li>
+        </ul>
+
+        <!--Content-->
+        <div class="content b-white">
+            @RenderBody()
+        </div>
+
+        <!--Footer-->
+        <div class="footer">
+
+        </div>
+    </div>
+    
+    <script src="~/Content/Scripts/jquery-1.10.2.min.js"></script>
+    <script src="~/Content/Scripts/bootstrap.min.js"></script>    
+    <script src="~/Content/Scripts/main.js"></script>
+</body>
+</html>

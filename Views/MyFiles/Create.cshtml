@@ -1,0 +1,27 @@
+﻿@*@model Application.DbModels.UserFile*@
+
+@{
+    ViewBag.Title = "Create";
+}
+
+<div id="myfiles-create" class="b-white">
+    <div class="title b-lightgrey">
+        <h2>My Files</h2>
+    </div>
+
+    <!--Description-->
+    <div class="subtitle b-red f-white big">
+        <h2>Change profile picture</h2>
+    </div>
+    @using (Html.BeginForm(null, null, FormMethod.Post, new { enctype = "multipart/form-data" }))
+    {
+        @Html.AntiForgeryToken()
+        <label>Choose file</label>
+        <div class="filechooser">
+            <input class="input file" type="file" name="file" id="file">
+        </div>
+        <input type="submit" value="Create" class="input submit f-white" />
+        <div class="link f-red">@Html.ActionLink("Back to My Profile", "Details", "MyUsers", new { id = ViewBag.userId }, null)</div>
+    }
+
+</div>

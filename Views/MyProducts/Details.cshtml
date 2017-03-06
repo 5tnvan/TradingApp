@@ -1,0 +1,144 @@
+﻿@model Application.ViewModels.ProductViewModel
+@{
+    ViewBag.Title = "Details";
+}
+
+@{
+    var bcolor = "b-blue";
+    var dlinks = "";
+    var dsold = "hide";
+    var sold = "";
+
+    if (Model.IsLive == false)
+    {
+        bcolor = "b-grey";
+        dlinks = "hide";
+        dsold = "";
+        sold = "sold";
+    }
+}
+
+<div id="myproducts-details" class="b-white @sold">
+    <!--Title-->
+    <div class="title b-lightgrey">
+        <h2>My Items</h2>
+    </div>
+       
+    <!--Description-->
+    <div class="subtitle @bcolor f-white big">
+        <h2>@Model.Name</h2>
+        <h2 class="f-red @dsold">[Sold]</h2>
+    </div>
+
+    <!--Product-->
+    <div class="product">
+        <div class="gallery @bcolor">
+            <ul class="container">
+                @{
+                    if (Model.ProductFiles.Count() == 0)
+                    {
+                        <li class="selected"><img src="~/Files/Images/ProductImages/default.jpg" /></li>
+                    }
+                    else
+                    {
+                        var primaryImage = Model.ProductFiles.Any(x => x.IsPrimary == true);
+                        if (primaryImage == true)
+                        {
+                            foreach (var img in Model.ProductFiles)
+                            {
+                                var selected = "";
+                                if (img.IsPrimary) { selected = "selected"; }
+                                var productFileName = img.File.FileName + "." + img.File.FileExtention.Name;
+                                <li class="@selected"><img src="~/Files/Images/ProductImages/@productFileName" /></li>
+                            }
+                        }
+                        else
+                        {
+                            var c = 0;
+                            foreach (var img in Model.ProductFiles)
+                            {
+                                c++;
+                                var selected = "";
+                                if (c == 1) { selected = "selected"; }
+                                var productFileName = img.File.FileName + "." + img.File.FileExtention.Name;
+                                <li class="@selected"><img src="~/Files/Images/ProductImages/@productFileName" /></li>
+                            }
+                        }
+
+                    }
+                }
+            </ul>
+            <div class="navigation">
+                <a href="#noref" class="previous"></a>
+                <a href="#noref" class="next"></a>
+            </div>
+        </div>
+
+        @{
+
+            var userPrimaryImage = "default.jpg";
+            if (Model.UserViewModel.IsPrimaryFileExist == true) { userPrimaryImage = Model.UserViewModel.PrimaryFile.File.FileName + "_small." + Model.UserViewModel.PrimaryFile.File.FileExtention.Name; }
+        }
+
+        <div class="text b-lightgrey">
+            <div class="links @dlinks">
+                @Html.ActionLink("Edit", "Edit", new { id = Model.Id }) |
+                @Html.ActionLink("Delete", "Delete", new { id = Model.Id }) |
+                @Html.ActionLink("Back To My Items", "Index")
+            </div>
+            <a href="@Url.Action("Details", "MyUsers", new { id = Model.UserViewModel.Id })" class="user">
+                <div class="icon b-blue">
+                    <img src="~/Files/Images/UserImages/@userPrimaryImage" />
+                </div>
+                <div class="info">
+                    @{
+                        var location = "Unknown Location";
+                        var ad = @Model.UserViewModel.Addresses.FirstOrDefault();
+                        if (ad != null) location = ad.City.Name + ", " + ad.City.Country.Name;
+                    }
+                    <div class="name">@Model.UserViewModel.FirstName @Model.UserViewModel.LastName</div>
+                    <div class="location">@location</div>
+                </div>
+            </a>
+            <div class="clear"></div>
+
+            <div class="category">
+                <b>Category: </b>
+                @Model.SubCategory.Category.Name > @Model.SubCategory.Name
+            </div>
+            <div class="description">
+                <b>Description: </b>
+                @Model.Description
+            </div>
+        </div>
+    </div>
+    <ul class="interest b-blue f-white">
+        <li><h3>People who marked this item as wanted</h3></li>
+        @if (Model.UserInterested.Count() == 0)
+        {
+            <li class="nointerest">
+                <a href="#noref">No interest yet</a>
+            </li>
+        }
+
+        @foreach (var us in Model.UserInterested)
+        {
+            var otherUserPrimaryImage = "default.jpg";
+            if (us.IsPrimaryFileExist == true) { otherUserPrimaryImage = us.PrimaryFile.File.FileName + "_small." + us.PrimaryFile.File.FileExtention.Name; }
+
+            var location1 = "Unknown Location";
+            var ad1 = us.Addresses.FirstOrDefault();
+            if (ad1 != null) { location1 = ad1.City.Name + ", " + ad1.City.Country.Name; }
+
+            <li>
+                <a href="@Url.Action("Details", "Users", new { id = us.Id })">
+                    <div class="icon b-blue"><img src="~/Files/Images/UserImages/@otherUserPrimaryImage" /></div>
+                    <div class="info">
+                        <div class="name">@us.FirstName @us.LastName</div>
+                        <div class="location">@location1</div>
+                    </div>
+                </a>                    
+            </li>
+        }
+    </ul>    
+</div>

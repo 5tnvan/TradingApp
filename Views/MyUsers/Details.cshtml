@@ -1,0 +1,79 @@
+﻿@model Application.ViewModels.UserViewModel
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<div id="myusers-details" class="b-white">
+    <!--Title-->
+    <div class="title b-lightgrey">
+        <h2>My Profile</h2>
+    </div>
+
+    <!--Description-->
+    <div class="subtitle b-red f-white big">
+        <h2>@Model.FirstName @Model.LastName</h2>
+    </div>
+    <a href='@Url.Action("Create", "MyFiles")' class="profileImage b-red block">
+        @{
+            var imageName = "default.jpg";
+            if (Model.IsPrimaryFileExist == true) { imageName = Model.PrimaryFile.File.FileName + "." + Model.PrimaryFile.File.FileExtention.Name; }
+        }
+        <img src="~/Files/Images/UserImages/@imageName" />
+        <h2 class="overlay f-red">Change profile picture</h2>
+    </a>
+    <div class="text">
+        <div class="basic info">
+            <div class="label">Basic Information</div>
+            <div class="row links f-red">
+                @Html.ActionLink("Edit", "Edit", new { id = Model.Id }) @*| @Html.ActionLink("Back to Index", "Index", "Home")*@
+            </div>
+            <div class="row name">
+                <b>Name:</b> @Model.FirstName @Model.LastName
+            </div>
+            <div class="row birthday">
+                <b>Birthday:</b> @Model.Birthday
+            </div>
+            <div class="row gender">
+                @{var gender = ""; }
+                @if (@Model.Gender == true) { gender = "Female"; } else { gender = "Male"; }
+                <b>Gender:</b> @gender
+            </div>
+            <div class="row phone">
+                <b>Phone number:</b>
+                @if (Model.PhoneNumber != null) {@Model.PhoneNumber}
+            </div>
+        </div>
+        <div class="account info">
+            <div class="label">Account Information</div>
+            <div class="row link f-red">
+                @Html.ActionLink("Edit", "Edit", "MyAccount", new { id = Model.Account.Id })
+            </div>
+            <div class="row email"><b>Email:</b> @Model.Account.Email</div>
+            <div class="row password"><b>Password:</b> Protected</div>
+        </div>
+        <div class="billing info">
+            <div class="label">Billing Information</div>
+            <div class="link f-red">@Html.ActionLink("Add New Address", "Create", "MyAddresses")</div>
+            @if (Model.Addresses.Count() > 0)
+            {
+                <table class="row addresses">
+                    <tbody>
+                        @foreach (var ad in Model.Addresses)
+                        {
+                            <tr>
+                                <td class="left">@ad.StreetName @ad.StreetNumber<text>,</text> @ad.City.Name<text>,</text> @ad.City.Country.Name</td>
+                                <td class="f-red right">
+                                    @Html.ActionLink("Details", "Details", "MyAddresses", new { id = ad.Id }, null) |
+                                    @Html.ActionLink("Edit", "Edit", "MyAddresses", new { id = ad.Id }, null) |
+                                    @Html.ActionLink("Delete", "Delete", "MyAddresses", new { id = ad.Id }, null)
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            }            
+        </div>        
+    </div>
+</div>
+

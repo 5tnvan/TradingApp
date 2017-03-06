@@ -1,0 +1,45 @@
+﻿@model Application.ViewModels.RegisterViewModel
+
+@{
+    ViewBag.Title = "Register";
+}
+
+<div id="myaccount-register">
+    <!--Title-->
+    <div class="title b-lightgrey">
+        <h2>Register</h2>
+    </div>
+
+    <!--Description-->
+    <div class="subtitle b-green f-white small">
+        <h3>New user? Register an account.</h3>
+    </div>
+
+    @using (Html.BeginForm(null, null, FormMethod.Post, new { @class = "b-white" }))
+    {
+        <div class="inputs">
+            @Html.AntiForgeryToken()
+
+            @Html.EditorFor(model => model.FirstName, new { htmlAttributes = new { @placeholder = "First Name", @class = "input" } })
+            @Html.ValidationMessageFor(model => model.FirstName, "", new { @class = "validation error" })
+
+            @Html.EditorFor(model => model.LastName, new { htmlAttributes = new { @placeholder = "Last Name", @class = "input" } })
+            @Html.ValidationMessageFor(model => model.LastName, "", new { @class = "validation error" })
+
+            @Html.EditorFor(model => model.Email, new { htmlAttributes = new { @placeholder = "Email", @class = "input" } })
+            @Html.ValidationMessageFor(model => model.Email, "", new { @class = "validation error" })
+            
+            <div class="validation error">@ViewBag.Message</div>
+
+            @Html.EditorFor(model => model.Password, new { htmlAttributes = new { @placeholder = "Password", @class = "input" } })
+            @Html.ValidationMessageFor(model => model.Password, "", new { @class = "validation error" })
+
+            @Html.EditorFor(model => model.ConfirmPassword, new { htmlAttributes = new { @placeholder = "Confirm Password", @class = "input" } })
+            @Html.ValidationMessageFor(model => model.ConfirmPassword, "", new { @class = "validation error" })
+
+
+            <input class="input submit f-white" type="submit" value="Register" />
+        </div>
+    }
+</div>
+

@@ -1,0 +1,56 @@
+﻿@model Application.ViewModels.ProductViewModel
+
+@{
+    ViewBag.Title = "Edit";
+}
+
+<div id="myproducts-edit" class="b-white">
+    <div class="title b-lightgrey">
+        <h2>My Items</h2>
+    </div>
+    <div class="subtitle b-blue f-white big">
+        <h2>@Model.Name</h2>
+    </div>
+    @using (Html.BeginForm("Edit", "MyProducts", FormMethod.Post, new { enctype = "multipart/form-data" }))
+    {
+        @Html.AntiForgeryToken()
+
+        <div class="inputs">
+            @Html.LabelFor(model => model.Name)
+            @Html.EditorFor(model => model.Name, new { htmlAttributes = new { @class = "input" } })
+            @Html.ValidationMessageFor(model => model.Name, "", new { @class = "validation error" })
+
+            @Html.LabelFor(model => model.Description)
+            @Html.TextAreaFor(model => model.Description, new { @class = "input" })
+            @Html.ValidationMessageFor(model => model.Description, "", new { @class = "validation error" })
+
+            @Html.LabelFor(model => model.SelectedCategoryId)
+            @Html.DropDownListFor(model => model.SelectedCategoryId, Model.CategoryList, "Select Category", new { @class = "input dropdown" })
+
+            @Html.LabelFor(model => model.SelectedSubCategoryId, new { @class = "subcatlabel hide" })
+            @Html.DropDownListFor(model => model.SelectedSubCategoryId, Model.SubCategoryList, "Select SubCategory", new { @class = "input dropdown" })
+            @Html.ValidationMessageFor(model => model.SelectedSubCategoryId, "", new { @class = "validation error" })
+
+            <label for="gallery">Gallery</label>
+            <div class="gallery">
+                <ul class="images">
+                    @foreach (var pf in Model.ProductFiles)
+                    {
+                        var productFileName = pf.File.FileName + "_small." + pf.File.FileExtention.Name;
+                        <li>
+                            <img src="~/Files/Images/ProductImages/@productFileName" />
+                            <span class="delete">&#10006;</span>
+                        </li>
+                    }
+                </ul>
+                <a href="#noref" class="add f-blue">Add File</a>
+            </div>
+
+            <input type="submit" value="Save" class="input submit f-white" />
+            <div class="link f-blue">@Html.ActionLink("Back To Item", "Details", new { id = Model.Id })</div>
+        </div>
+
+    }
+</div>
+
+    

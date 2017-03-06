@@ -1,0 +1,89 @@
+﻿@model Application.DbModels.User
+@{
+    ViewBag.Title = "Details";
+    var gender = "Male";
+    if (Model.Gender == true) { gender = "Female"; }
+    var liveProducts = Model.Products.Where(x => x.IsLive == true);
+}
+
+<div id="users-details" class="b-white">
+    <!--Title-->
+    <div class="title b-lightgrey">
+        <h2>Profile</h2>
+    </div>
+    <!--Description-->
+    <div class="subtitle b-red f-white big">
+        <h2>@Model.FirstName @Model.LastName</h2>
+    </div>
+
+    <!--Profile Image-->
+    <div class="profileImage b-red block">
+        @{
+            var imageName = "default.jpg";
+            var primaryImage = Model.UserFiles.Where(x => x.IsPrimary == true).FirstOrDefault();
+            if (primaryImage != null) { imageName = primaryImage.File.FileName + "." + primaryImage.File.FileExtention.Name; }
+        }
+        <img src="~/Files/Images/UserImages/@imageName" />
+    </div>
+
+    <!--Navigation-->
+    <ul class="navigation f-red">
+        <li data-index="1"><span>Basic Info</span></li>
+        <li data-index="2" class="picked"><span>Items</span></li>
+    </ul>
+
+    <!--Basic Information-->
+    <div class="tab info hide" data-index="1">
+        <div><b>Name:</b> @Model.FirstName @Model.LastName</div>
+        <div><b>Gender:</b> @gender</div>
+        @if (@Model.UserAddresses.Count() > 0)
+        {
+            <div>
+                <b>Location:</b>
+                @Model.UserAddresses.FirstOrDefault().Address.City.Name<text>,</text> @Model.UserAddresses.FirstOrDefault().Address.City.Country.Name
+            </div>            
+        }
+        <div><b>Email:</b> @Model.Account.Email</div>
+        
+    </div>
+    <!--Items-->
+    <div class="tab tiles b-white f-white" data-index="2">
+        @{
+            if (@Model.Products.Count() == 0) { <div class="noitem f-black">User has no items</div> }
+
+            var i = 0;
+
+        foreach (var item in liveProducts)
+        {
+            var productName = "default.jpg";
+            var productPrimaryFile = item.ProductFiles.Where(x => x.IsPrimary == true).FirstOrDefault();
+            if (productPrimaryFile != null) { productName = productPrimaryFile.File.FileName + "_small." + productPrimaryFile.File.FileExtention.Name; }
+
+            // Openning row div
+            if (i % 4 == 0)
+            {
+                    @Html.Raw("<div class='row'>")
+                }
+
+                // The rests of squares
+                <a href="@Url.Action("Details", "Products", new { id = item.Id })" class="square">
+                    <div class="product">
+                        <img class="image" src="~/Files/Images/ProductImages/@productName" />
+                        <span class="overlay name o-black">@Html.DisplayFor(modelItem => item.Name)</span>
+                    </div>
+                </a>
+
+                // Closing row div
+                if ((i + 1) % 4 == 0)
+                {
+                    @Html.Raw("</div>")
+                }
+
+                i++;
+            }
+        }
+    </div>
+</div>
+
+
+

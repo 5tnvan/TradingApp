@@ -1,0 +1,51 @@
+﻿@model Application.ViewModels.UserViewModel
+
+@{
+    ViewBag.Title = "Edit";
+}
+
+<div id="myusers-edit" class="b-white">
+    <!--Title-->
+    <div class="title b-lightgrey">
+        <h2>My Profile</h2>
+    </div>
+
+    <!--Description-->
+    <div class="subtitle b-red f-white big">
+        <h2>Basic Information</h2>
+    </div>
+
+    @using (Html.BeginForm())
+    {
+        @Html.AntiForgeryToken()
+
+        <div class="inputs">
+            @Html.LabelFor(model => model.FirstName)
+            @Html.EditorFor(model => model.FirstName, new { htmlAttributes = new { @class = "input" } })
+            @Html.ValidationMessageFor(model => model.FirstName, "", new { @class = "validation error" })
+
+            @Html.LabelFor(model => model.LastName)
+            @Html.EditorFor(model => model.LastName, new { htmlAttributes = new { @class = "input" } })
+            @Html.ValidationMessageFor(model => model.LastName, "", new { @class = "validation error" })
+
+            @Html.LabelFor(model => model.Birthday)
+            @Html.EditorFor(model => model.Birthday, new { htmlAttributes = new { @class = "input" } })
+            @Html.ValidationMessageFor(model => model.Birthday, "", new { @class = "validation error" })
+
+            @Html.LabelFor(model => model.Gender)
+            @Html.DropDownListFor( model => model.Gender, new SelectList(new[] { new { Value = "true", Text = "Female" }, new { Value = "false", Text = "Male" },}, "Value", "Text", Model.Gender))            
+            
+            @Html.LabelFor(model => model.PhoneNumber)
+            @Html.EditorFor(model => model.PhoneNumber, new { htmlAttributes = new { @class = "input" } })
+            @Html.ValidationMessageFor(model => model.PhoneNumber, "", new { @class = "validation error" })            
+                        
+            <input type="submit" value="Save" class="input submit f-white" />
+            <div class="link f-red">
+                @Html.ActionLink("Back to My Profile", "Details", new { id = Model.Id} )
+            </div>
+        </div>        
+    }   
+
+</div>
+
+

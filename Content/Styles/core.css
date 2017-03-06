@@ -1,0 +1,594 @@
+﻿body { margin: 0; padding: 0; font-family: "Segoe UI", Helvetica, Arial, sans-serif; background-color: #111d27; }
+h1, h2, h3 { margin: 0; font-family: "Segoe UI Light", Helvetica, Arial, sans-serif; }
+h1 { font-size: 40px; }
+h2 { font-size: 30px; }
+h3 { font-size: 20px; font-weight: normal; }
+h4 { margin: 0; }
+a { color: inherit; text-decoration: none; }
+a:hover { text-decoration: underline; }
+ul { margin: 0; padding: 0; list-style: none; }
+
+/* Common generic classes */
+.clear { clear: both; }
+.block { display: block !important; }
+.hide { display: none !important; }
+.center { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); text-align: center; }
+.inline { position: relative; display: -moz-inline-stack; display: inline-block; zoom: 1; *display: inline; vertical-align: top; }
+.cursor-x { cursor: not-allowed !important; }
+.bold { font-weight: bold; }
+
+/* Common colors */
+.b-blue { background-color: #2b70bf; }
+.b-green { background-color: #4c7737; }
+.b-yellow { background-color: #ffbb42; }
+.b-lightgrey { background-color: #e8e9ea; }
+.b-white { background-color: #ffffff; }
+.b-black { background-color: #373737; }
+.b-grey { background-color: #8e8e8e; }
+.b-purple { background-color: #7c44bb; }
+.b-pink { background-color: #d04275; }
+.b-red { background-color: #e13c4c; }
+.b-orange { background-color: #ff8137; }
+
+.f-white { color: white; }
+.f-black { color: black; }
+.f-red { color: #e13c4c; }
+.f-pink { color: #d04275; }
+.f-green { color: #4c7737; }
+.f-red { color: #e13c4c; }
+.f-blue { color: #2b70bf; }
+.f-orange { color: #ff8137; }
+.f-yellow { color: #ffbb42; }
+
+.o-black { background-color: rgba(0,0,0,.4); }
+.o-blue { background-color: rgba(43, 112, 191, .6); }
+.o-yellow { background-color: rgba(255, 187, 66, .6); }
+.o-green { background-color: rgba(76, 119, 55, .6); }
+.o-pink { background-color: rgba(208, 66, 117, .6); }
+.o-lightgrey { background: rgba(232, 233, 234, 0.5); }
+
+/* Shared components */
+.pending, .inprogress, .accepted, .rejected, .locked { font-weight: normal; position: relative; padding: 5px 10px; border-radius: 5px; color: white; display: inline-block; text-align: center }
+.pending.small, .inprogress.small, .accepted.small, .rejected.small, .locked.small { font-size: 12px; min-width: 55px; }
+.pending.big, .inprogress.big, .accepted.big, .rejected.big, .locked.big { font-size: 16px; min-width: 80px; }
+.pending, .inprogress { background: #ffbb42; }
+.accepted { background: #4c7737; }
+.rejected { background: #e13c4c; }
+.locked { background: #c2c2c2; }
+.validation.error { color: #e13c4c; margin-bottom: 10px; display: block; }
+.button.pending:hover, .button.inprogress:hover, .button.accepted:hover, .button.rejected:hover, .button.locked:hover { text-decoration: none; opacity: 0.6; }
+
+.icon { width: 60px; height: 60px; border-radius: 30px; overflow: hidden; }
+.icon img { display: block; max-width: 60px; max-height: 60px }
+.icon ~ .location { font-style: italic; }
+.icon.big { width: 150px; height: 150px; border-radius: 150px; }
+.icon.big img { max-width: 100%; }
+.icon.small { width: 50px; height: 50px; border-radius: 50px; }
+.icon.small img { max-width: 100%; }
+.tag { padding: 5px 10px; border-radius: 5px; margin-right: 5px; }
+.tiles .row .square { position: relative; }
+.tiles .row .square .product .image { position: absolute; top: 0; left: 0; max-width: 100%; }
+.tiles .row .square .product .overlay { visibility: visible; opacity: 1; position: absolute; z-index: 100; margin: 10px; }
+.tiles .row .square .product .overlay.name { bottom: 0; left: 0; padding: 5px 10px; border-radius: 10px; }
+.tiles .row .square:hover .product .image { opacity: 0.6; }
+.button:hover { text-decoration: none; opacity: 0.8; }
+
+/* Master */
+.master { width: 1180px; margin: 0 auto; }
+
+/* Grid */
+.master .tiles .row { }
+.master .tiles .row:after { content: ""; display: table; clear: both; }
+.master .tiles .row .square { display: block; float: left; width: 25%; height: 0; padding-bottom: 25%; position: relative; overflow: hidden; }
+
+/* Header */
+.master .header { height: 60px; padding: 20px 50px 10px 50px; }
+.master .header h1 { float: left; margin: 0 50px 0 0; }
+.master .header h1 a:hover { text-decoration: none; }
+.master .header .navicon { display: none; }
+.master .header .account > * { float: right; }
+.master .header .account .icon { margin-right: 10px; }
+.master .header .account .name { margin-top: 20px; margin-right: 30px; }
+.master .header .account .log { margin-top: 20px; }
+.master .menu { margin: 0 0 100px 0; overflow: hidden; padding: 0 50px 20px 50px; font-weight: 600; display: block; }
+.master .menu li { float: left; margin-right: 10%; }
+.master .menu li:last-child { margin-right: 0px; }
+
+/* Content */
+.master .content .title { text-align: center; padding: 30px; }
+.master .content .subtitle.big { padding: 30px; }
+.master .content .subtitle.small { padding: 37px; }
+.master .content .subtitle { text-align: center; }
+.master .content .subtitle h2 { font-weight: 100; }
+/*.master .content .title, .master .content .subtitle { padding: 20px; height: 60px; text-align: center; -webkit-transform-style: preserve-3d; -moz-transform-style: preserve-3d; transform-style: preserve-3d; }
+.master .content .title > *, .master .content .subtitle > * { position: relative; top: 50%; transform: translateY(-50%); }*/
+
+/* Footer */
+
+/* Page Specific */
+/**** Home/Index ****/
+.master .content #home-index { }
+.master .content #home-index .walkthrough { padding: 30px 50px; text-align: center; }
+.master .content #home-index .walkthrough { margin-bottom: 40px; overflow: hidden; }
+.master .content #home-index .walkthrough .text { margin-bottom: 20px; }
+.master .content #home-index .walkthrough img { width: 70%; border: 1px solid #8e8e8e; margin-bottom: 40px; }
+.master .content #home-index .walkthrough img.gif { width: auto; border-right: none; }
+
+/**** MyCart/Index ****/
+.master .content #mycart-index .row { overflow: hidden; text-align: center; padding: 20px 0; border-bottom: 1px solid #4c7737; }
+.master .content #mycart-index .row .column { width: 33%; float: left; }
+.master .content #mycart-index .row .column img { max-width: 98px; border: 1px solid #4c7737; border-radius: 20px; }
+.master .content #mycart-index .row .column .name { padding: 0 10px; }
+.master .content #mycart-index .row .column.optionsCount { font-size: 30px; }
+
+.master .content #mycart-index .theader { font-weight: 600; border-bottom: 4px solid #4c7737; }
+.master .content #mycart-index .options { display: none; }
+.master .content #mycart-index .options .option { padding: 15px 0; cursor: pointer; }
+.master .content #mycart-index .options .option:hover { background: white; }
+.master .content #mycart-index .options .label { font-weight: 600; }
+.master .content #mycart-index .options .option.picked { background-color: rgba(76, 119, 55, .6); color: white; }
+.master .content #mycart-index .options .option.picked .message { color: white !important; }
+.master .content #mycart-index .options .option.picked .cycle .product .user span { color: white !important; }
+.master .content #mycart-index .options .option .cycle { overflow: hidden; }
+.master .content #mycart-index .options .option .cycle .product .image { margin: 0 auto; width: 48px; height: 48px; border-radius: 48px; overflow: hidden; border: 1px solid #4c7737; }
+.master .content #mycart-index .options .option .cycle .product .image img { max-width: 48px; }
+.master .content #mycart-index .options .option .cycle .product .user { text-align: center; margin-top: 3px; font-size: 12px; }
+.master .content #mycart-index .options .option .cycle .product .user span { font-size: 15px; }
+.master .content #mycart-index .options .option .cycle .product .checked { border-radius: 16px; padding: 0 4px; margin-top: 4px; display: inline-block; }
+.master .content #mycart-index .options .option .cycle .arrow { margin: 14px 20px; }
+.master .content #mycart-index .options .option .message { margin-bottom: 15px; }
+.master .content #mycart-index .options .option .button { padding: 5px 10px; border-radius: 5px; display: inline-block; margin-top: 10px; }
+.master .content #mycart-index .options .option .button:hover {  }
+
+/**** MyAccount/Login ****/
+.master .content #myaccount-login form { padding: 30px 0; }
+.master .content #myaccount-login form .inputs { width: 40%; margin: 0 auto; outline: #4c7737; }
+.master .content #myaccount-login form .inputs label { font-size: 20px; }
+.master .content #myaccount-login form .inputs .input { font-size: 20px; display: block; font-family: 'Segoe UI'; border-radius: 3px; border: none; background: rgba(232, 233, 234, 0.5); padding: 9px 4%; width: 92%; }
+.master .content #myaccount-login form .inputs .input.text-box { margin-bottom: 10px; }
+.master .content #myaccount-login form .inputs .input.text-box.password { margin-bottom: 15px; }
+.master .content #myaccount-login form .inputs .input.check-box { margin-bottom: 20px; }
+.master .content #myaccount-login form .inputs .input.submit { font-size: 20px; margin-bottom: 15px; width: 100%; background-color: #4c7737; outline-color: #4c7737; }
+.master .content #myaccount-login form .links { width: 40%; margin: 0 auto; }
+.master .content #myaccount-login form .links a { display: block; text-align: right; }
+
+/**** MyAccount/Register ****/
+.master .content #myaccount-register form .inputs { width: 40%; margin: 0 auto; padding: 30px 0; }
+.master .content #myaccount-register form { padding: 30px 0; }
+.master .content #myaccount-register form .inputs { width: 40%; margin: 0 auto; outline: #4c7737; }
+.master .content #myaccount-register form .inputs label { font-size: 20px; }
+.master .content #myaccount-register form .inputs .input { font-size: 20px; display: block; font-family: 'Segoe UI'; border-radius: 3px; border: none; background: rgba(232, 233, 234, 0.5); padding: 9px 4%; width: 92%; }
+.master .content #myaccount-register form .inputs .input.text-box { margin-bottom: 10px; }
+.master .content #myaccount-register form .inputs .input.text-box.password { margin-bottom: 15px; }
+.master .content #myaccount-register form .inputs .input.check-box { margin-bottom: 20px; }
+.master .content #myaccount-register form .inputs .input.submit { font-size: 20px; margin-bottom: 15px; width: 100%; background-color: #4c7737; outline-color: #4c7737; }
+.master .content #myaccount-register form .links { width: 40%; margin: 0 auto; }
+.master .content #myaccount-register form .links a { display: block; text-align: right; }
+
+/**** Users/Details ****/
+.master .content #users-details .profileImage { position: relative; text-align: center; -webkit-transition: all 0.4s ease; transition: all 0.4s ease; }
+.master .content #users-details .profileImage img { display: block; max-width: 100%; max-height: 800px; margin: 0 auto; vertical-align: top; -webkit-transition: all 0.4s ease; transition: all 0.4s ease; }
+.master .content #users-details ul { overflow: hidden; border-top: 1px solid #f89da6; border-bottom: 1px solid #f89da6; text-align: center; font-size: 20px; max-height: 67px; }
+.master .content #users-details li { float: left; width: 50%; padding: 0; cursor: pointer; background-color: #e8e9ea; }
+.master .content #users-details li span { padding: 20px; display: inline-block; }
+.master .content #users-details li.picked { /*border-bottom: 5px solid;*/ font-weight: 600; background: #e13c4c; color: white; }
+.master .content #users-details .info { padding: 50px; }
+.master .content #users-details .info > div { margin-bottom: 20px; }
+.master .content #users-details .info > div:last-of-type { margin-bottom: 0; }
+.master .content #users-details .noitem { padding: 50px; }
+
+/**** MyUsers/Details ****/
+.master .content #myusers-details .profileImage { position: relative; text-align: center; -webkit-transition: all 0.4s ease; transition: all 0.4s ease; }
+.master .content #myusers-details .profileImage img { display: block; max-width: 100%; max-height: 800px; margin: 0 auto; vertical-align: top; -webkit-transition: all 0.4s ease; transition: all 0.4s ease; }
+.master .content #myusers-details .profileImage .overlay { opacity: 0; position: absolute; top: 45%; width: 100%; font-size: 30px; font-weight: 100; -webkit-transition: all 0.65s ease; transition: all 0.65s ease; }
+.master .content #myusers-details .profileImage:hover { background:#e8e9ea  }
+.master .content #myusers-details .profileImage:hover img { opacity: 0; }
+.master .content #myusers-details .profileImage:hover .overlay { opacity: 1; }
+.master .content #myusers-details .text { padding: 50px; }
+.master .content #myusers-details .text .info { margin-bottom: 40px; }
+.master .content #myusers-details .text .info.billing { margin-bottom: 0; }
+.master .content #myusers-details .text .info .label { color: #e13c4c; font-size: 20px; margin-bottom: 20px; }
+.master .content #myusers-details .text .info .label .link { font-size: 16px; }
+.master .content #myusers-details .text .info .row { margin-bottom: 20px; }
+.master .content #myusers-details .text .info .addresses { border-collapse: collapse; }
+.master .content #myusers-details .text .info .addresses td { padding: 0; }
+.master .content #myusers-details .text .info .addresses .left { }
+.master .content #myusers-details .text .info .addresses .right { padding-left: 20px; }
+
+/**** MyUsers/Edit ****/
+.master .content #myusers-edit form { padding: 50px; }
+.master .content #myusers-edit form .validation { margin: -10px 0 20px 0; }
+.master .content #myusers-edit form .inputs label { color: #e13c4c; font-size: 20px; }
+.master .content #myusers-edit form .inputs .input { display: block; font-family: 'Segoe UI'; border-radius: 3px; border: none; background: rgba(232, 233, 234, 0.5); font-size: 16px; margin: 10px 0 30px 0; outline-color: #e13c4c; padding: 9px 2%; width: 96%; }
+.master .content #myusers-edit form .inputs .input.dropdown { width: 100% !important; }
+.master .content #myusers-edit form .inputs .input.text-area { border: #2b70bf; }
+.master .content #myusers-edit form .inputs .input.check-box { margin: 0 10px 0 0; padding: 0; width: auto; display: inline; }
+.master .content #myusers-edit form .inputs .input.submit { display: inline-block; font-size: 20px; width: 100%; background-color: #e13c4c; margin: 10px 0 20px 0; }
+.master .content #myusers-edit form .inputs #Gender { display: block; font-family: 'Segoe UI'; border-radius: 3px; border: none; background: rgba(232, 233, 234, 0.5); font-size: 16px; margin: 10px 0 30px 0; outline-color: #e13c4c; padding: 9px 2%; width: 100%; }
+.master .content #myusers-edit form .link { text-align: center; }
+
+/**** MyAddresses/Create ****/
+.master .content #myaddresses-create form { padding: 50px; }
+.master .content #myaddresses-create form .validation { margin: -10px 0 20px 0; }
+.master .content #myaddresses-create form .inputs label { color: #e13c4c; font-size: 20px; }
+.master .content #myaddresses-create form .inputs .input { display: block; font-family: 'Segoe UI'; border-radius: 3px; border: none; background: rgba(232, 233, 234, 0.5); font-size: 16px; margin: 10px 0 30px 0; outline-color: #e13c4c; padding: 9px 2%; width: 96%; }
+.master .content #myaddresses-create form .inputs .input.dropdown { width: 100% !important; }
+.master .content #myaddresses-create form .inputs .input.text-area { border: #2b70bf; }
+.master .content #myaddresses-create form .inputs .input.check-box { margin: 0 10px 0 0; padding: 0; width: auto; display: inline; }
+.master .content #myaddresses-create form .inputs .input.submit { display: inline-block; font-size: 20px; width: 100%; background-color: #e13c4c; margin: 10px 0 20px 0; }
+.master .content #myaddresses-create form .inputs #Gender { display: block; font-family: 'Segoe UI'; border-radius: 3px; border: none; background: rgba(232, 233, 234, 0.5); font-size: 16px; margin: 10px 0 30px 0; outline-color: #e13c4c; padding: 9px 2%; width: 100%; }
+.master .content #myaddresses-create form .link { text-align: center; }
+
+/**** MyAddresses/Details ****/
+.master .content #myaddresses-details .text { padding: 50px; }
+.master .content #myaddresses-details .text .row { margin-bottom: 20px; }
+
+/**** MyAddresses/Edit ****/
+.master .content #myaddresses-edit form { padding: 50px; }
+.master .content #myaddresses-edit form .validation { margin: -10px 0 20px 0; }
+.master .content #myaddresses-edit form .inputs label { color: #e13c4c; font-size: 20px; }
+.master .content #myaddresses-edit form .inputs .input { display: block; font-family: 'Segoe UI'; border-radius: 3px; border: none; background: rgba(232, 233, 234, 0.5); font-size: 16px; margin: 10px 0 30px 0; outline-color: #e13c4c; padding: 9px 2%; width: 96%; }
+.master .content #myaddresses-edit form .inputs .input.dropdown { width: 100% !important; }
+.master .content #myaddresses-edit form .inputs .input.submit { display: inline-block; font-size: 20px; width: 100%; background-color: #e13c4c; margin: 10px 0 20px 0; }
+.master .content #myaddresses-edit form .link { text-align: center; }
+
+/**** MyAddresses/Delete ****/
+.master .content #myaddresses-delete form h2 { font-weight: 100; }
+.master .content #myaddresses-delete form { padding: 50px; }
+.master .content #myaddresses-delete form .label { color: #e13c4c; font-size: 20px; margin-bottom: 10px; }
+.master .content #myaddresses-delete form .text { margin-bottom: 30px; }
+.master .content #myaddresses-delete form .submit { display: block; font-family: 'Segoe UI'; border-radius: 3px; border: none; background-color: #e13c4c; font-size: 20px; margin: 10px 0 20px 0; outline-color: #e13c4c; padding: 9px 2%; width: 100%; }
+.master .content #myaddresses-delete form .link { text-align: center; }
+
+/**** MyFiles/Create ****/
+.master .content #myfiles-create form { padding: 50px; }
+.master .content #myfiles-create form label { color: #e13c4c; font-size: 20px; }
+.master .content #myfiles-create form .input { display: block; font-family: 'Segoe UI'; border-radius: 3px; border: none; background: rgba(232, 233, 234, 0.5); font-size: 16px; margin: 10px 0 30px 0; outline-color: #e13c4c; padding: 9px 2%; width: 96%; }
+.master .content #myfiles-create form .input.submit { display: inline-block; font-size: 20px; width: 100%; background-color: #e13c4c; margin: 10px 0 20px 0; }
+.master .content #myfiles-create form .link { text-align: center; }
+
+/**** Products ****/
+.master .content #products .tiles .row .square .product .overlay.wanted { top: 0; right: 0; width: 60px; height: 60px; border-radius: 30px; text-align: center; }
+.master .content #products .tiles .row .square .product .overlay.wanted span { position: relative; top: 28%; transform: translateY(-8%); font-size: 13px; }
+
+/**** Products/Details ****/
+.master .content #products-details { overflow: hidden; }
+.master .content #products-details .subtitle .wanted { margin: 0 auto; width: 120px; padding: 10px; border-radius: 20px; margin-top: 20px; }
+.master .content #products-details .events { overflow: hidden; padding: 10px 24px; }
+.master .content #products-details .events .close { text-align: right; font-size: 33px; float: right; }
+.master .content #products-details .events .edit { float: left; }
+.master .content #products-details .product .gallery { position: relative; }
+.master .content #products-details .product .gallery .container { position: relative; }
+.master .content #products-details .product .gallery .container li { display: none; position: absolute; top: 0; left: 0; }
+.master .content #products-details .product .gallery .container li.selected { display: block; position: relative; }
+.master .content #products-details .product .gallery .container li img { max-width: 100%; max-height: 800px; vertical-align: top; margin: 0 auto; display: block; }
+.master .content #products-details .product .gallery .navigation a { position: absolute; width: 48px; height: 48px; top: 47%; background: url("../Images/Components/arrows.svg") no-repeat center center; }
+.master .content #products-details .product .gallery .navigation a.previous { left: 10px; transform: rotate(180deg); }
+.master .content #products-details .product .gallery .navigation a.next { right: 10px; }
+.master .content #products-details .product .text { padding: 6%; }
+.master .content #products-details .product .text .links { float: left; color: #ffbb42; }
+.master .content #products-details .product .text .user { text-align: right; margin-bottom: 1em; overflow: hidden; display: inline-block; float: right; }
+.master .content #products-details .product .text .user:hover .icon { opacity: 0.6; }
+.master .content #products-details .product .text .user .icon { float: right; }
+.master .content #products-details .product .text .user .info { margin-right: 80px; }
+.master .content #products-details .product .text .category { margin-bottom: 20px; }
+
+/**** MyProducts ****/
+.master .content #myproducts { }
+.master .content #myproducts .tiles .row .square .product .overlay.interest { top: 0; right: 0; width: 60px; height: 60px; border-radius: 30px; text-align: center; }
+.master .content #myproducts .tiles .row .square .product .overlay.interest span { position: relative; top: 8%; transform: translateY(-8%); font-size: 13px; }
+.master .content #myproducts .tiles .row .square.add:hover { background-color: rgba(232, 233, 234, 0.6); text-decoration: underline; }
+.master .content #myproducts .tiles .row .square:hover .product .image { opacity: 0.6; }
+
+/**** MyProducts/Delete ****/
+.master .content #myproducts-delete form h2 { font-weight: 100; }
+.master .content #myproducts-delete form { padding: 50px; }
+.master .content #myproducts-delete form .label { color: #2b70bf; font-size: 20px; margin-bottom: 10px; }
+.master .content #myproducts-delete form .text { margin-bottom: 30px; }
+.master .content #myproducts-delete form .submit { display: block; font-family: 'Segoe UI'; border-radius: 3px; border: none; background-color: #2b70bf; font-size: 20px; margin: 10px 0 20px 0; outline-color: #2b70bf; padding: 9px 2%; width: 100%; }
+.master .content #myproducts-delete form .link { text-align: center; }
+
+/**** MyProducts/Details ****/
+.master .content #myproducts-details { overflow: hidden; }
+.master .content #myproducts-details .events { overflow: hidden; padding: 10px 24px; }
+.master .content #myproducts-details .events .close { text-align: right; font-size: 33px; float: right; }
+.master .content #myproducts-details .events .edit { float: left; }
+.master .content #myproducts-details .product { float: left; width: 70%; }
+.master .content #myproducts-details .product .gallery { position: relative; }
+.master .content #myproducts-details .product .gallery .container { position: relative; }
+.master .content #myproducts-details .product .gallery .container li { display: none; position: absolute; top: 0; left: 0; }
+.master .content #myproducts-details .product .gallery .container li.selected { display: block; position: relative; }
+.master .content #myproducts-details .product .gallery .container li img { max-width: 100%; max-height: 800px; vertical-align: top; margin: 0 auto; display: block; background-color: rgba(255, 187, 66, 0.6); }
+.master .content #myproducts-details .product .gallery .navigation a { position: absolute; width: 48px; height: 48px; top: 47%; background: url("../Images/Components/arrows.svg") no-repeat center center; }
+.master .content #myproducts-details .product .gallery .navigation a.previous { left: 10px; transform: rotate(180deg); }
+.master .content #myproducts-details .product .gallery .navigation a.next { right: 10px; }
+.master .content #myproducts-details .product .text { padding: 6%; }
+.master .content #myproducts-details .product .text .links { float: left; color: #2b70bf; }
+.master .content #myproducts-details .product .text .user { float: right; text-align: right; margin-bottom: 1em; overflow: hidden; display: inline-block; }
+.master .content #myproducts-details .product .text .user:hover .icon { opacity: 0.6; }
+.master .content #myproducts-details .product .text .user .icon { float: right; }
+.master .content #myproducts-details .product .text .user .info { margin-right: 80px; }
+.master .content #myproducts-details .product .text .category { margin-bottom: 20px; }
+.master .content #myproducts-details .interest { float: right; width: 30%; }
+.master .content #myproducts-details .interest li h3 { text-align: center; padding: 15px 10%; border-top: 1px solid #72a5df; }
+.master .content #myproducts-details .interest li a { border-bottom: 1px solid #72a5df; padding: 15px 10%; overflow: hidden; display: block;  }
+.master .content #myproducts-details .interest li a:hover .icon { opacity: 0.8; }
+.master .content #myproducts-details .interest li a:first-child { border-top: 1px solid #72a5df; }
+.master .content #myproducts-details .interest li a .icon { float: right; margin: 0 0 0 20px; }
+.master .content #myproducts-details .interest li a .info { text-align: right; margin-right: 80px; }
+.master .content #myproducts-details .interest li.nointerest { text-align: center;}
+
+.master .content #myproducts-details.sold .product { float: none; width: 100%; }
+.master .content #myproducts-details.sold .interest { display: none; width: auto; float: none; }
+
+/**** MyProducts/Create ****/
+.master .content #myproducts-create form { padding: 50px; }
+.master .content #myproducts-create form .validation { margin: -10px 0 20px 0; }
+.master .content #myproducts-create form .inputs label { color: #2b70bf; font-size: 20px; }
+.master .content #myproducts-create form .inputs .input { display: block; font-family: 'Segoe UI'; border-radius: 3px; border: none; background: rgba(232, 233, 234, 0.5); font-size: 16px; margin: 10px 0 30px 0; outline-color: #2b70bf; padding: 9px 2%; width: 96%; }
+.master .content #myproducts-create form .inputs .input.dropdown { width: 100% !important; }
+.master .content #myproducts-create form .inputs .input.text-area { border: #2b70bf; }
+.master .content #myproducts-create form .inputs .input.check-box { margin: 0 10px 0 0; padding: 0; width: auto; display: inline; }
+.master .content #myproducts-create form .inputs .input.submit { margin: 10px 0 20px 0; display: inline-block; font-size: 20px; width: 100%; background-color: #2b70bf; }
+.master .content #myproducts-create form .inputs .add { margin: 10px 0 20px 0; display: inline-block; }
+.master .content #myproducts-create form .link { text-align: center; }
+
+/**** MyProducts/Edit ****/
+.master .content #myproducts-edit form { padding: 50px; }
+.master .content #myproducts-edit form .validation { margin: -10px 0 20px 0; }
+.master .content #myproducts-edit form .inputs label { color: #2b70bf; font-size: 20px; }
+.master .content #myproducts-edit form .inputs .input { display: block; font-family: 'Segoe UI'; border-radius: 3px; border: none; background: rgba(232, 233, 234, 0.5); font-size: 16px; margin: 10px 0 30px 0; outline-color: #2b70bf; padding: 9px 2%; width: 96%; }
+.master .content #myproducts-edit form .inputs .input.dropdown { width: 100% !important; }
+.master .content #myproducts-edit form .inputs .input.text-area { border: #2b70bf; }
+.master .content #myproducts-edit form .inputs .input.check-box { margin: 0 10px 0 0; padding: 0; width: auto; display: inline; }
+.master .content #myproducts-edit form .inputs .input.submit { margin: 10px 0 20px 0; display: inline-block; font-size: 20px; width: 100%; background-color: #2b70bf; }
+.master .content #myproducts-edit form .inputs .add { margin: 10px 0 20px 0; display: inline-block; }
+.master .content #myproducts-edit form .gallery .images { margin: 10px 0 10px 0; }
+.master .content #myproducts-edit form .gallery .images li { position: relative; width: 100px; height: 100px; overflow: hidden; display: inline-block; border: 1px solid #2b70bf; margin: 0 10px 10px 0; }
+.master .content #myproducts-edit form .gallery .images li img { max-width: 100px; }
+.master .content #myproducts-edit form .gallery .images li .delete { position: absolute; top: 0; right: 0; padding: 0 5px; color: #2b70bf; background-color: white; cursor: pointer; }
+.master .content #myproducts-edit form .gallery .images li .delete:hover { background-color: rgba(232, 233, 234, 1); }
+.master .content #myproducts-edit form .link { text-align: center; }
+
+/**** MyTransactions/Index ****/
+.master .content #mytransactions .transaction:hover { background: #e8e9ea; text-decoration: none; }
+.master .content #mytransactions .transaction { display: block; text-align: center; padding: 15px; border-bottom: 1px solid #8e8e8e; }
+.master .content #mytransactions .transaction .id { margin-bottom: 10px; }
+.master .content #mytransactions .transaction .status { margin-bottom: 10px; }
+.master .content #mytransactions .transaction .cycle { overflow: hidden; }
+.master .content #mytransactions .transaction .cycle .product .image { margin: 0 auto; width: 48px; height: 48px; border-radius: 48px; overflow: hidden; border: 1px solid #4c7737; }
+.master .content #mytransactions .transaction .cycle .product .image img { max-width: 48px; }
+.master .content #mytransactions .transaction .cycle .product .user { text-align: center; margin-top: 3px; font-size: 12px; }
+.master .content #mytransactions .transaction .cycle .product .user span { font-size: 15px; }
+.master .content #mytransactions .transaction .cycle .product .checked { border-radius: 16px; padding: 0 4px; margin-top: 4px; display: inline-block; }
+.master .content #mytransactions .transaction .cycle .arrow { margin: 14px 20px; }
+
+/**** MyTransactions/Details ****/
+.master .content #mytransactionbuyrequests-details { }
+.master .content #mytransactionbuyrequests-details .row { border-bottom: 1px solid #c2c2c2; }
+.master .content #mytransactionbuyrequests-details .invoice { padding: 30px 50px; }
+.master .content #mytransactionbuyrequests-details .invoice .id { text-align: right; }
+.master .content #mytransactionbuyrequests-details .invoice .label { font-size: 20px; color: #d04275; margin-bottom: 10px; display: block; }
+.master .content #mytransactionbuyrequests-details .invoice .date { margin-bottom: 30px; text-align: right; }
+.master .content #mytransactionbuyrequests-details .invoice .box .info { padding: 10px 20px; margin-bottom: 30px; }
+.master .content #mytransactionbuyrequests-details .invoice .sender { width: 49%; float: left; margin-right: 1%; }
+.master .content #mytransactionbuyrequests-details .invoice .receiver { margin-left: 51%; width: 49%; }
+.master .content #mytransactionbuyrequests-details .invoice .product { padding: 9px 12px; margin-bottom: 30px; background: rgba(232, 233, 234, 0.5); }
+.master .content #mytransactionbuyrequests-details .invoice .text { margin-bottom: 30px; }
+.master .content #mytransactionbuyrequests-details .link { padding: 20px; text-align: center; }
+
+/**** MyTransactionBuyRequests/Handover ****/
+.master .content #mytransactionbuyrequests-handover { }
+.master .content #mytransactionbuyrequests-handover .invoice { padding: 50px; }
+.master .content #mytransactionbuyrequests-handover .invoice .id { text-align: right; }
+.master .content #mytransactionbuyrequests-handover .invoice .date { margin-bottom: 30px; text-align: right; }
+.master .content #mytransactionbuyrequests-handover .invoice .box .info { padding: 10px 20px; margin-bottom: 30px; }
+.master .content #mytransactionbuyrequests-handover .invoice .sender { width: 49%; float: left; margin-right: 1%; }
+.master .content #mytransactionbuyrequests-handover .invoice .receiver { margin-left: 51%; width: 49%; }
+.master .content #mytransactionbuyrequests-handover .invoice .product { padding: 9px 12px; margin-bottom: 30px; background: rgba(232, 233, 234, 0.5); }
+.master .content #mytransactionbuyrequests-handover .invoice .label { font-size: 20px; color: #d04275; margin-bottom: 10px; display: block; }
+.master .content #mytransactionbuyrequests-handover .invoice form {}
+.master .content #mytransactionbuyrequests-handover .invoice form .validation { margin: -10px 0 20px 0; }
+.master .content #mytransactionbuyrequests-handover .invoice form .input { display: block; font-family: 'Segoe UI'; border-radius: 3px; border: none; background: rgba(232, 233, 234, 0.5); font-size: 16px; margin: 0 0 30px 0; outline-color: #d04275; padding: 9px 2%; width: 96%; }
+.master .content #mytransactionbuyrequests-handover .invoice form .input.text-area { border: #d04275; }
+.master .content #mytransactionbuyrequests-handover .invoice form .input.dropdown { width: 100%; }
+.master .content #mytransactionbuyrequests-handover .invoice form .input.submit { margin: 0 0 20px 0; display: inline-block; font-size: 20px; width: 100%; background-color: #d04275; padding: 9px 2%; }
+.master .content #mytransactionbuyrequests-handover .invoice form .checkbox { margin-bottom: 30px; }
+.master .content #mytransactionbuyrequests-handover .link { text-align: center; }
+
+/**** MyTransactions/Details ****/
+.master .content #mytransactions-details { text-align: center; }
+.master .content #mytransactions-details .subtitle h2 { font-weight: 100; }
+.master .content #mytransactions-details .product:hover img { opacity: 0.6; }
+.master .content #mytransactions-details .product:hover { text-decoration: none; }
+.master .content #mytransactions-details .row { border-bottom: 1px solid #c2c2c2; }
+.master .content #mytransactions-details .row .label { font-size: 20px; }
+.master .content #mytransactions-details .link { padding: 20px; }
+.master .content #mytransactions-details .actions { padding: 23px 20px 20px 20px; }
+.master .content #mytransactions-details .actions .label { margin-bottom: 10px; }
+.master .content #mytransactions-details .actions .steps { }
+.master .content #mytransactions-details .actions .steps .circle { position: relative; margin-right: -5px; border-radius: 30px; width: 30px; height: 30px; display: inline-block }
+.master .content #mytransactions-details .actions .steps .circle:hover { opacity: 0.8 !important; }
+.master .content #mytransactions-details .actions .steps .circle img { max-width: 30px; }
+.master .content #mytransactions-details .actions .steps .circle span { font-size: 12px; position: absolute; left: 12px; top: 6px; }
+.master .content #mytransactions-details .actions .steps .circle span.x { left: 10px; }
+.master .content #mytransactions-details .actions .steps .line { margin-right: -5px; vertical-align: top; margin-top: 13px; width: 150px; height: 5px; display: inline-block; }
+.master .content #mytransactions-details .actions .names { }
+.master .content #mytransactions-details .actions .names a { vertical-align: top; width: 177px; display: inline-block; }
+.master .content #mytransactions-details .actions .names a.active { font-weight: 700 }
+.master .content #mytransactions-details .actions .names a:hover { text-decoration: none; }
+.master .content #mytransactions-details .actions .message { margin-top: 20px; }
+.master .content #mytransactions-details .givereceive { padding: 34px 0; }
+.master .content #mytransactions-details .givereceive .product .label { margin-bottom: 10px; }
+.master .content #mytransactions-details .givereceive .product .image { width: 98px; height: 98px; border-radius: 20px; overflow: hidden; border: 1px solid #d04275; margin-bottom: 10px; }
+.master .content #mytransactions-details .givereceive .product .image img { max-width: 98px; }
+.master .content #mytransactions-details .givereceive .product .text { width: 200px; }
+.master .content #mytransactions-details .path { padding: 15px 0; }
+.master .content #mytransactions-details .path .label { margin-bottom: 20px; }
+.master .content #mytransactions-details .path .cycle .product .image { margin: 0 auto; width: 48px; height: 48px; border-radius: 48px; overflow: hidden; border: 1px solid #d04275; }
+.master .content #mytransactions-details .path .cycle .product .image img { max-width: 48px; }
+.master .content #mytransactions-details .path .cycle .product .user { text-align: center; margin-top: 3px; }
+.master .content #mytransactions-details .path .cycle .arrow { margin: 14px 20px; }
+.master .content #mytransactions-details .status { padding: 30px 50px; text-align: center; }
+.master .content #mytransactions-details .status .label { font-size: 20px; margin-bottom: 20px; }
+.master .content #mytransactions-details .status table { border-collapse: collapse; margin: 0 auto; text-align: left; width: 100%; text-align: center; border: 1px solid #c2c2c2; }
+.master .content #mytransactions-details .status table thead { border: 1px solid #c2c2c2; }
+.master .content #mytransactions-details .status table tbody { background: #fff; }
+.master .content #mytransactions-details .status table td { padding: 10px; }
+.master .content #mytransactions-details .status table .dot { width: 10px; height: 10px; border-radius: 10px; background: #e13c4c; position: absolute; top: -3px; right: -3px; }
+.master .content #mytransactions-details .myaction { display: none; padding: 30px 50px; }
+.master .content #mytransactions-details .myaction .text { margin-bottom: 20px; }
+
+/**********************************
+* Smaller Screens
+**********************************/
+@media only screen and (max-width: 1200px) {
+    .master { width: 960px; }
+}
+
+/**********************************
+* Tablets
+**********************************/
+@media only screen and (max-width: 1024px) {
+
+    .master { width: 760px; }
+
+    /* Common Components */
+    .tiles .row .square.add img { width: 55%; }
+
+    /* Page Specific */
+    /**** MyProduct/Details ****/
+    .master .content #myproducts-details .interest li h3 { font-size: 16px; }
+    .master .content #myproducts-details .interest li .icon { display: none; }
+    .master .content #myproducts-details .interest li a .info { float: none; text-align: center; margin-right: 0; }
+}
+
+/**********************************
+* Mobile Devices
+**********************************/
+@media only screen and (max-width: 767px) { 
+
+    /* Common Components */
+    .mobile-show { height: auto !important; -moz-transition: height .3s linear; -webkit-transition: height .3s linear; transition: height .3s linear; }
+    .tiles .row .square.add { height: 100px; padding-bottom: 0; }
+    .tiles .row .square.add img { width: 50%; }
+    .tiles .row .square .product .image { min-width: 100%; }
+    .tiles .row .square .product .overlay { margin: 20px; }
+    .tiles .row .square .product .overlay.name { margin: 0; border-radius: 0; width: 96%; text-align: center; padding: 23px 2%; }
+
+    .master .tiles .row .square { float: none; width: 100%; height: 0; padding-bottom: 100%; }
+    .master { width: 100%; }
+    .master .header { margin-bottom: 0; padding: 20px; height: 50px; }
+    .master .header h1 { display: none; }
+    .master .header .navicon { display: block; }
+    .master .header .navicon a img { width: 40px; float: left; }
+    .master .header .account .name { display: none; }
+    .master .menu { width: 100%; height: 0; padding: 0; margin: 0; height: 0; }
+    .master .menu li { float: none; margin: 0; }
+    .master .menu li a { display: block; border-top: 1px solid grey; padding: 20px; text-decoration: none; }
+    .master .menu li a:hover { background: #e8e9ea; }
+    .master .menu li:last-child a { border-bottom: 1px solid grey; }
+
+    /* Page Specific */
+    /**** Home/Index ****/
+    .master .content #home-index .walkthrough img { width: 99%; }
+    .master .content #home-index .walkthrough img.gif { width: 99%; }
+
+    /**** Myaccount/Login ****/
+    .master .content #myaccount-login form .inputs,
+    .master .content #myaccount-login form .links { width: 80%; }
+    .master .content #myaccount-login form .inputs .text-box { padding: 15px 4%; }
+    .master .content #myaccount-login form .inputs .submit { padding: 15px 6%; }
+    .master .content #myaccount-login form .links a { text-align: center; }
+
+    /**** Myaccount/Register ****/
+    .master .content #myaccount-register form .inputs { width: 80%; }
+    .master .content #myaccount-register form .inputs .text-box { padding: 15px 4%; }
+    .master .content #myaccount-register form .inputs .submit { padding: 15px 6%; }
+    
+    /**** Users/Details ****/
+
+    /**** MyUsers/Details ****/    
+    .master .content #myusers-details .profileImage .overlay { font-size: 25px; }
+    .master .content #myusers-details .text { padding: 30px; }
+    .master .content #myusers-details .text .link { margin-bottom: 20px; }
+    .master .content #myusers-details .text .info .addresses td { display: block }
+    .master .content #myusers-details .text .info .addresses .right { padding: 0; margin-bottom: 20px; }
+
+    /**** MyUsers/Edit ****/
+    .master .content #myusers-edit form { padding: 30px; }
+
+    /**** MyAddress ****/
+    .master .content #myaddresses-create form { padding: 30px; }
+    .master .content #myaddresses-edit form { padding: 30px; }
+    .master .content #myaddresses-delete form { padding: 30px; }
+    .master .content #myaddresses-details .text { padding: 30px; }
+
+    /**** MyFiles/Create ****/
+    .master .content #myfiles-create form { padding: 30px; }
+
+    /**** Products/Delete ****/
+    .master .content #products-details .product { float: none; width: 100%; }
+    .master .content #products-details .product .text .links { float: none; margin-bottom: 20px; }
+    .master .content #products-details .product .text .user { float: none; text-align: left; }
+    .master .content #products-details .product .text .user .icon { float: left; margin: 0 20px 0 0; }
+    .master .content #products-details .product .text .user .info { margin-left: 80px; }
+
+    /**** Myproducts/Delete ****/
+    .master .content #myproducts-delete form { padding: 30px; }
+
+    /**** Myproducts/Edit ****/
+    .master .content #myproducts-edit form { padding: 30px; }
+
+    /**** Myproducts/Details ****/
+    .master .content #myproducts-details .product { float: none; width: 100%; }
+    .master .content #myproducts-details .product .text .links { float: none; margin-bottom: 20px; }
+    .master .content #myproducts-details .product .text .user {float: none; }
+    .master .content #myproducts-details .product .text .user .icon { float: left; margin: 0 20px 0 0; }
+    .master .content #myproducts-details .product .text .user .info { float: none; text-align: left; margin: 0 0 0 80px; }
+    .master .content #myproducts-details .interest { float: none; width: 100%; }
+    .master .content #myproducts-details .interest li .icon { display: none; }
+    .master .content #myproducts-details .interest li a .info { text-align: center; margin-right: 0; }
+
+    /**** Myproducts/Create ****/
+    .master .content #myproducts-create form { padding: 30px; }
+
+    /**** MyCart/Index ****/    
+    .master .content #mycart-index .options .option .cycle { position: relative; display: -moz-inline-stack; display: inline-block; zoom: 1; vertical-align: top; }
+    .master .content #mycart-index .options .option .cycle .product { display: block; }
+    .master .content #mycart-index .options .option .cycle .arrow { display: block; margin: 0; margin: 17px 0px; -ms-transform: rotate(7deg); -webkit-transform: rotate(7deg); transform: rotate(90deg); }
+
+    /**** MyTransactions/Index ****/
+    .master .content #mytransactions { font-size: 12px; }
+    .master .content #mytransactions .transaction .cycle { position: relative; display: -moz-inline-stack; display: inline-block; zoom: 1; vertical-align: top; }
+    .master .content #mytransactions .transaction .cycle .product { display: block; }
+    .master .content #mytransactions .transaction .cycle .arrow { display: block; margin: 0; margin: 17px 0px; -ms-transform: rotate(7deg); -webkit-transform: rotate(7deg); transform: rotate(90deg); }
+
+    /**** MyTransactions/Details ****/
+    .master .content #mytransactions-details .exchange .inline { margin: 0 20px; }
+    .master .content #mytransactions-details .actions .steps .line { width: 75px; }
+    .master .content #mytransactions-details .actions .names a { width: 102px; }
+    .master .content #mytransactions-details .path .cycle { position: relative; display: -moz-inline-stack; display: inline-block; zoom: 1; vertical-align: top; }
+    .master .content #mytransactions-details .path .cycle .product { display: block; }
+    .master .content #mytransactions-details .path .cycle .arrow { display: block; margin: 0; margin: 17px 0px; -ms-transform: rotate(7deg); -webkit-transform: rotate(7deg); transform: rotate(90deg); }
+
+    /**** MyTransactionBuyRequest/Handover ****/
+    .master .content #mytransactionbuyrequests-handover .invoice .sender { float: none; width: 100%; margin: 0; }
+    .master .content #mytransactionbuyrequests-handover .invoice .receiver { width: 100%; margin: 0; }
+
+    /**** MyTransactionBuyRequest/Details ****/
+    .master .content #mytransactionbuyrequests-details .invoice .sender { float: none; width: 100%; margin: 0; }
+    .master .content #mytransactionbuyrequests-details .invoice .receiver { width: 100%; margin: 0; }
+}
+
+@media only screen and (max-width: 480px) {
+    .master .content #mytransactions-details .actions .steps .line { width: 20px; }
+    .master .content #mytransactions-details .actions .names a { width: 57px; font-size: 12px; }
+    .master .content #mytransactions-details .exchange .inline { margin: 0 10px; }
+    .master .content #mytransactions-details .status { padding: 30px;  }
+    .master .content #mytransactions-details .status table { font-size: 12px; }
+    .master .content #mytransactions-details .status table thead { display: none; }
+    .master .content #mytransactions-details .status table tbody tr td:nth-child(2) { display: none; }
+    .master .content #mytransactions-details .givereceive .product:first-of-type { margin-bottom: 20px; }
+}
+

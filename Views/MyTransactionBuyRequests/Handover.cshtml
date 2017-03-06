@@ -1,0 +1,90 @@
+﻿@using Application.ViewModels;
+@model HandoverViewModel
+
+@{
+    ViewBag.Title = "Edit";
+    var transactionId = Model.TransactionBuyRequest.TransactionId;
+    var handoverId = Model.TransactionBuyRequest.Id;
+    var prod = Model.TransactionBuyRequest.GiveBuyRequest.Product;
+    var sender = Model.TransactionBuyRequest.GiveBuyRequest.Product.User;
+    var receiver = Model.TransactionBuyRequest.GiveBuyRequest.User;
+}
+<div id="mytransactionbuyrequests-handover">
+    <!--Title-->
+    <div class="title b-lightgrey">
+        <h2>My Transactions</h2>
+    </div>
+
+    <!--Description-->
+    <div class="subtitle b-pink f-white big">
+        <h2>Handover My Item</h2>
+    </div>
+
+    <!--Invoice-->    
+    <div class="invoice">
+        <div class="id">Handover Id: #@handoverId</div>
+        @*<div class="date">Date: @DateTime.Today.ToString("D")</div>*@
+        <div class="box sender">
+            <div class="label">Sender</div>
+            <div class="info o-lightgrey">
+                @{
+                    var phone1 = "";
+                    var ph1 = @sender.UserPhones.FirstOrDefault();
+                    if (ph1 != null) phone1 = ph1.Phone.Number.ToString();
+                    var address1 = "";
+                    var ad1 = @sender.UserAddresses.FirstOrDefault();
+                    if (ad1 != null) address1 = ad1.Address.StreetName + " " + ad1.Address.StreetNumber + ", " + ad1.Address.City.Name + ", " + ad1.Address.City.Country.Name;
+                }
+                <div>Name: @sender.FirstName @sender.LastName</div>
+                <div>Email: @sender.Account.Email</div>
+                <div>Phone: @phone1</div>
+                <div>Address: @address1</div>
+            </div>
+            
+        </div>
+        <div class="box receiver">
+            <div class="label">Receiver</div>
+            <div class="info o-lightgrey">
+                @{
+                    var phone2 = "";
+                    var ph2 = @receiver.UserPhones.FirstOrDefault();
+                    if (ph2 != null) phone2 = ph2.Phone.Number.ToString();
+                }
+                <div>Name: @Model.ShippingName</div>
+                <div>Email: @receiver.Account.Email</div>
+                <div>Phone: @phone2</div>
+                <div>Address: @Model.ShippingAddress</div>
+            </div>            
+        </div>
+        <div class="label">Product</div>
+        <div class="product b-lightgrey">@Html.ActionLink(@prod.Name, "Details", "MyProducts", new { id = prod.Id }, null)</div> 
+        <!-- Form -->
+        @using (Html.BeginForm("Handover", "MyTransactionBuyRequests", FormMethod.Post, new { @class = "show row" }))
+        {            
+            @Html.AntiForgeryToken()
+            @Html.HiddenFor(model => model.TransactionBuyRequestId)
+            @Html.HiddenFor(model => model.ShippingAddress)
+            @Html.HiddenFor(model => model.ShippingName)
+            @Html.LabelFor(model => model.HandoverMethodId, new {@class = "label" })
+            @Html.DropDownListFor(model => model.HandoverMethodId, Model.HandoverMethodList, "Select method", new { @class = "input dropdown" })
+            @Html.ValidationMessageFor(model => model.HandoverMethodId, "", new { @class = "validation error" })
+
+            @Html.LabelFor(model => model.Note, new { @class = "label" })
+            @Html.TextAreaFor(model => model.Note, new { @class = "input text-area" })
+
+            <div class="checkbox">
+                @Html.CheckBoxFor(model => model.Agree)
+                Hereby I confirm hand-over of my product to receiver @receiver.FirstName @receiver.LastName
+            </div>
+            @Html.ValidationMessageFor(model => model.Agree, "", new { @class = "validation error" })
+
+
+            <input type="submit" value="Submit" class="input submit f-white" />
+            <div class="link f-pink">
+                @Html.ActionLink("Back To My Transaction", "Details", "MyTransactions", new { id = transactionId }, null)
+            </div>            
+        }        
+    </div>
+</div>
+
+

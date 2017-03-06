@@ -1,0 +1,69 @@
+﻿@using Application.ViewModels
+@model List<ProductViewModel>
+
+@{
+    ViewBag.Title = "Index";
+    var it = "item";
+    if (Model.Count() > 1) { it = "items"; }
+
+}
+
+<div id="myproducts">
+    <!--Title-->
+    <div class="title b-lightgrey">
+        <h2>My Items</h2>
+    </div>
+
+    <!--Description-->
+    <div class="subtitle b-blue f-white small">
+        <h3>You have @Model.Count() @it.</h3>
+    </div>
+
+    <!--Tiles-->
+    <div class="tiles b-white f-white">
+        
+        @Html.Raw("<div class='row'>")
+        <a href="@Url.Action("Create","MyProducts")" class="square add b-lightgrey">
+            <div class="center">
+                <img src="../Content/Images/Components/add.png" />
+                <span class="f-black block">Add new item</span>
+            </div>
+        </a>
+
+        @{
+            int i = 0;
+            foreach (var item in Model)
+            {
+                i++;
+                // get image name
+                var primaryImageName = "default.jpg";
+                if (item.IsPrimaryFileExist == true ) { primaryImageName = item.PrimaryFile.File.FileName + "_small." + item.PrimaryFile.File.FileExtention.Name; }
+
+
+                // Openning row div
+                if (i % 4 == 0 && i != 0)
+                {
+                    @Html.Raw("<div class='row'>")
+                }
+
+                // The rests of squares
+                <a href="@Url.Action("Details","MyProducts", new { id = item.Id })" class="square">
+                    <div class="product">
+                        <img class="image" src="../Files/Images/ProductImages/@primaryImageName" />
+                        <span class="overlay name o-black">@Html.DisplayFor(modelItem => item.Name)</span>
+                    </div>
+                </a>
+
+                // Closing row div
+                if ((i + 1) % 4 == 0)
+                {
+                    @Html.Raw("</div>")
+                }
+            }
+        }
+
+
+    </div>
+</div>
+
+

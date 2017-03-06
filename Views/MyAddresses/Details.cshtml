@@ -1,0 +1,34 @@
+﻿@model Application.DbModels.Address
+@{
+    ViewBag.Title = "Details";
+}
+<div id="myaddresses-details" class="b-white">
+    <!--Title-->
+    <div class="title b-lightgrey">
+        <h2>My Addresses</h2>
+    </div>
+
+    <!--Description-->
+    <div class="subtitle b-red f-white big">
+        <h2>@Model.StreetName @Model.StreetNumber</h2>
+    </div>
+    <div class="text">
+        <div class="row links f-red">
+            @Html.ActionLink("Back to My Profile", "Details", "MyUsers", new { id = ViewBag.userId }, null)
+        </div>
+        <div class="row name">
+            <b>Street Name:</b> @Model.StreetName
+        </div>
+        <div class="row number">
+            <b>Street Number:</b> @Model.StreetNumber
+        </div>
+        <div class="row city">
+            <b>City:</b> @Model.City.Name
+        </div>
+        <div class="country">
+            <b>Country:</b> @Model.City.Country.Name
+        </div>
+    </div>    
+</div>
+    
+

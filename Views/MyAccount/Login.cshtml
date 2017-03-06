@@ -1,0 +1,38 @@
+﻿@model Application.DbModels.Account
+
+@{
+    ViewBag.Title = "Login";
+}
+
+<div id="myaccount-login">
+    <!--Title-->
+    <div class="title b-lightgrey">
+        <h2>Login</h2>
+    </div>
+
+    <!--Description-->
+    <div class="subtitle b-green f-white small">
+        <h3>Welcome back. Login to your account to trade!</h3>
+    </div>
+
+    <!--Form-->
+    @using (Html.BeginForm(null, null, FormMethod.Post, new { @class = "b-white" }))
+    {
+        <div class="inputs">
+            @Html.TextBoxFor(m => m.Email, "Email", new { @class = "input text-box email", @placeholder = "Email" })
+            @Html.TextBoxFor(m => m.Password, "Password", new { @class = "input text-box password", @placeholder = "Password", type = "password" })
+            @*<div class="check-box">
+                <input type="checkbox" id="checkbox" checked="checked">
+                <label for="checkbox">Remember me</label>
+            </div>*@
+            <div class="validation error">@ViewBag.Message</div>
+            <input class="input submit f-white" type="submit" value="Login" />            
+        </div>
+        <div class="links">
+            @Html.ActionLink("New user?", "Register", "MyAccount")
+            <a href="#norel">Forgot password</a>
+        </div>        
+    }
+</div>
+
+

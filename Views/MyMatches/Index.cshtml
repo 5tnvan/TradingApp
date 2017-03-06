@@ -1,0 +1,144 @@
+﻿@using Application.ViewModels;
+@model List<ProductCyclesViewModel>
+
+@{
+    ViewBag.Title = "Index";
+}
+<div id="mymatches">
+    <!--Title-->
+    <div class="title b-lightgrey">
+        <h2>My Matches</h2>
+    </div>
+
+    <!--Description-->
+    <div class="subtitle b-green f-white small">
+        <h3>The following products have matched pairs. Expand to see options.</h3>
+    </div>
+
+    <!--Matches-->
+
+    @foreach (var item in Model)
+    {
+        //images
+        var productImageName = "default.jpg";
+        if (item.PrimaryFile.File != null)
+        {
+            productImageName = item.PrimaryFile.File.FileName + "_small." + item.PrimaryFile.File.FileExtention.Name;
+        }
+
+        <div class="match">
+            <div class="row main b-lightgrey">
+                <div class="cycle">
+                    <a href="@Url.Action("Details", "MyProducts", new { id = item.Product.Id })" class="product first inline">
+                        <div class="image">
+                            <img src="~/Files/Images/ProductImages/@productImageName" />
+                        </div>
+                        <div class="user">@item.Product.User.FirstName @item.Product.User.LastName[0].</div>
+                    </a>
+
+                    <div class="arrow inline">
+                        <img src="~/Content/Images/Components/twowayarrow.png" />
+                    </div>
+                    <a class="product second inline">
+                        <div class="image">
+                            
+                        </div>
+                        <div class="user"></div>
+                    </a>
+                </div>
+            </div>                
+                
+            @{
+                var hide = "";
+                var cursorx = "";
+
+                if (item.TransactionId != null)
+                {
+                    hide = "hide";
+                    cursorx = "cursor-x";
+
+                    var transactionId = item.TransactionId;
+                    <div class="row option b-lightgrey">
+                        This product belongs to a
+                        @Html.ActionLink("transaction", "Details", "MyTransactions", new { id = transactionId }, new { @class = "f-green bold" })
+                        in progress. Resolve the
+                        @Html.ActionLink("transaction", "Details", "MyTransactions", new { id = transactionId }, new { @class = "f-green bold" })
+                        before picking other option below.
+                    </div>
+                }
+            }
+
+            @foreach (var cycle in item.Options)
+            {
+                <div class="row option @cursorx">
+                    <div class="cycle">
+                        @{var i = 0;}
+
+                        @*buy requests helpers for ajax*@
+                        <div class="buyrequests hide">
+
+                            @foreach (var br in cycle)
+                            {
+                                <div class="buyrequest">
+                                    <div class="Id">@br.BuyRequest.Id</div>
+                                    <div class="prodId">@br.BuyRequest.ProductId</div>
+                                    <div class="userId">@br.BuyRequest.UserId</div>
+                                </div>
+                            }
+                        </div>
+
+                        @foreach (var buyrequest in cycle)
+                        {
+                            var productImageName2 = "default.jpg";
+                            if (buyrequest.PrimaryFile.File != null)
+                            {
+                                productImageName2 = buyrequest.PrimaryFile.File.FileName + "_small." + buyrequest.PrimaryFile.File.FileExtention.Name;
+                            }
+
+                            i++;
+                            if (i == 1)
+                            {
+                                <a href="@Url.Action("Details", "MyProducts", new { id = buyrequest.BuyRequest.Product.Id })" class="product inline">
+                                    <div class="image">
+                                        <img src="~/Files/Images/ProductImages/@productImageName2" />
+                                    </div>
+                                    <div class="user">@buyrequest.BuyRequest.Product.User.FirstName @buyrequest.BuyRequest.Product.User.LastName[0].</div>
+                                </a>
+                            }
+                            else
+                            {
+                                <div class="arrow inline">
+                                    <img src="~/Content/Images/Components/onewayarrow.png" />
+                                </div>
+                                <a href="@Url.Action("Details", "Products", new { id = buyrequest.BuyRequest.Product.Id })" class="product inline">
+                                        <div class="image">
+                                            <img src="~/Files/Images/ProductImages/@productImageName2" />
+                                        </div>
+                                        <div class="user">@buyrequest.BuyRequest.Product.User.FirstName @buyrequest.BuyRequest.Product.User.LastName[0].</div>
+                                    </a>
+                            }
+                        }
+
+                        @*first as last*@
+                        <div class="arrow inline">
+                            <img src="~/Content/Images/Components/onewayarrow.png" />
+                        </div>
+                        <a href="@Url.Action("Details", "MyProducts", new { id = cycle.First().BuyRequest.ProductId })" class="product inline">
+                            <div class="image">
+                                <img src="~/Files/Images/ProductImages/@productImageName" />
+                            </div>
+                            <div class="user">@cycle.First().BuyRequest.Product.User.FirstName @cycle.First().BuyRequest.Product.User.LastName[0].</div>
+                        </a>
+                    </div>
+                    <div class="buttons @hide">
+                        <a href="#noref" class="button pick b-green f-white">Pick</a>
+                    </div>
+                    <div class="error f-red"></div>
+                </div>
+            }
+        </div>
+    }
+
+</div>
+
+

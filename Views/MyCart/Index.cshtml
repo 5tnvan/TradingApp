@@ -1,0 +1,127 @@
+﻿@using Application.ViewModels;
+@model List<ProductCyclesViewModel>
+@{
+    ViewBag.Title = "Index";
+    var it = Model.Count();
+    var i = 1;
+}
+
+<div id="mycart-index">
+    <!--Title-->
+    <div class="title b-lightgrey">
+        <h2>My Cart</h2>
+    </div>
+
+    <!--Description-->
+    <div class="subtitle b-green f-white small">
+        <h3>@it of your items are ready to barter. Pick an option for each item and checkout.</h3>
+    </div>
+
+    <div class="row theader">
+        <div class="column">My product</div>
+        <div class="column">Barter options</div>
+        <div class="column">Action</div>
+    </div>
+    @foreach (var item in Model)
+    {        
+        //images
+        var productImageName = "default.jpg";
+        if (item.PrimaryFile.File != null)
+        {
+            productImageName = item.PrimaryFile.File.FileName + "_small." + item.PrimaryFile.File.FileExtention.Name;
+        }
+
+        <!--Row-->
+        <div class="row product b-lightgrey" data-index="@i">
+            <div class="column info">
+                <img class="" src="~/Files/Images/ProductImages/@productImageName" />
+                <div class="name">@item.Product.Name</div>
+            </div>
+            <div class="column optionsCount">@item.Options.Count()</div>
+            <div class="column link f-green"><a class="expand" href="#noref">Pick option and checkout</a></div>
+        </div>
+        <!--Options-->
+        <div class="options" data-index="@i">
+            <div class="row label f-green">Barter options</div>
+            <!--Option-->
+            @foreach (var cycle in item.Options)
+            {
+                var q = 1;
+                var users = cycle.Any(x => x.User != null);
+                var dmessage = "hide";
+                var usersStr = "";
+                if (users == true)
+                {
+                    dmessage = "";
+                    foreach (var us in cycle.Where(x => x.User != null).ToList())
+                    {
+                        if (q == 1) { usersStr += us.User.FirstName + " " + us.User.LastName[0] + "."; }
+                        else { usersStr += ", " + us.User.FirstName + " " +us.User.LastName[0] + "."; }
+                        q++;
+                    }
+                }
+                <div class="row option">
+                    <div class="message f-green @dmessage"><a href="#">@usersStr</a> checked out this option.</div>
+                    <div class="cycle">                        
+                        @{var z = 1;}
+                        @foreach (var buyrequest in cycle)
+                        {
+                            <div class="buyrequest hide">
+                                <div class="giveId">@buyrequest.GiveBuyRequestId</div>
+                                <div class="getId">@buyrequest.GetBuyRequestId</div>
+                            </div>
+
+                            //checkmark
+                            var dcheckmark = "hide";
+                            if (buyrequest.User != null) { dcheckmark = ""; }
+
+                            //images
+                            var productImageName2 = "default.jpg";
+                            if (buyrequest.PrimaryFile.File != null)
+                            {
+                                productImageName2 = buyrequest.PrimaryFile.File.FileName + "_small." + buyrequest.PrimaryFile.File.FileExtention.Name;
+                            }
+
+                            if (z == 1)
+                            {
+                                <a href="@Url.Action("Details", "MyProducts", new { id = buyrequest.GiveBuyRequest.Product.Id })" class="product inline">
+                                    <div class="image">
+                                        <img src="~/Files/Images/ProductImages/@productImageName2" />
+                                    </div>
+                                    <div class="user">@buyrequest.GiveBuyRequest.Product.User.FirstName @buyrequest.GiveBuyRequest.Product.User.LastName[0].</div>
+                                </a>
+                            }
+                            else
+                            {
+                                <div class="arrow inline">
+                                    <img src="~/Content/Images/Components/onewayarrow.png" />
+                                </div>
+                                <a href="@Url.Action("Details", "Products", new { id = buyrequest.GiveBuyRequest.Product.Id })" class="product inline">
+                                    <div class="image">
+                                        <img src="~/Files/Images/ProductImages/@productImageName2" />
+                                    </div>
+                                    <div class="user">@buyrequest.GiveBuyRequest.Product.User.FirstName @buyrequest.GiveBuyRequest.Product.User.LastName[0].</div>
+                                    <span class="checked f-white b-green @dcheckmark">&#10004</span>
+                                </a>
+                            }
+                            z++;
+                        }
+                        @*first as last*@
+                        <div class="arrow inline">
+                            <img src="~/Content/Images/Components/onewayarrow.png" />
+                        </div>
+                        <a href="@Url.Action("Details", "MyProducts", new { id = cycle.First().GiveBuyRequest.ProductId })" class="product inline">
+                            <div class="image">
+                                <img src="~/Files/Images/ProductImages/@productImageName" />
+                            </div>
+                            <div class="user">@cycle.First().GiveBuyRequest.Product.User.FirstName @cycle.First().GiveBuyRequest.Product.User.LastName[0].</div>
+                        </a>
+                    </div>
+                    <a href="#" class="button b-green f-white hide">Checkout</a>                                            
+                </div>
+            }
+        </div>
+
+        i++;
+    }
+</div>

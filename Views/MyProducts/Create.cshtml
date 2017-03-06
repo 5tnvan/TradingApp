@@ -1,0 +1,49 @@
+﻿@model Application.ViewModels.ProductViewModel
+
+@{
+    ViewBag.Title = "Create";
+}
+
+<div id="myproducts-create" class="b-white">
+    <div class="title b-lightgrey">
+        <h2>My Items</h2>
+    </div>
+
+    <!--Description-->
+    <div class="subtitle b-blue f-white big">
+        <h2>Add an item</h2>
+    </div>
+    @using (Html.BeginForm("Create", "MyProducts", FormMethod.Post, new { enctype = "multipart/form-data" }))
+    {
+        @Html.AntiForgeryToken()
+
+        <div class="inputs">            
+            @Html.LabelFor(model => model.Name)
+            @Html.EditorFor(model => model.Name, new { htmlAttributes = new { @class = "input" } })
+            @Html.ValidationMessageFor(model => model.Name, "", new { @class = "validation error" })
+
+            @Html.LabelFor(model => model.Description)
+            @Html.TextAreaFor(model => model.Description, new { @class = "input" })
+            @Html.ValidationMessageFor(model => model.Description, "", new { @class = "validation error" })
+
+            @Html.LabelFor(model => model.SelectedCategoryId)
+            @Html.DropDownListFor(model => model.SelectedCategoryId, Model.CategoryList, "Select Category", new { @class = "input dropdown" })
+
+            @Html.LabelFor(model => model.SelectedSubCategoryId, new { @class = "subcatlabel hide"})
+            @Html.DropDownListFor(model => model.SelectedSubCategoryId, Enumerable.Empty<SelectListItem>(), null, new { @class = "input dropdown hide" })
+            @Html.ValidationMessageFor(model => model.SelectedSubCategoryId, "", new { @class = "validation error" })
+            
+            <label for="gallery">Gallery</label>
+            <div class="gallery">
+                <div class="filechooser">
+                    <input class="input file" type="file" name="files" id="file1">
+                </div>
+                <a href="#noref" class="add f-blue">Add File</a>
+            </div> 
+
+            <input type="submit" value="Create" class="input submit f-white" />
+            <div class="link f-blue">@Html.ActionLink("Back To My Items", "Index")</div>
+        </div>        
+    }
+    
+</div>
